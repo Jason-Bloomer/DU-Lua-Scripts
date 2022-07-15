@@ -28,15 +28,15 @@ Other than that, simply click "apply", and give the screen about 30 seconds to r
 
 ## Technical
 
-The strings themselves must follow two simple rules;
-	All ASCII character values must be greater than 33 and less than 126
-	Do not use ASCII values 34 and 92
-	
-In effect we have 91 possible values with which we can represent the intensity of a color.
-Typical images represent colors with values in range of 0 to 255, so we can divide 91 by 255, which gives us roughly 0.356.
-We use this number as a multiplier to the color values in the image, to get them to fall within acceptable character ranges.
-On the renderscript end we then multiply them back (by 2.8) to "restore" the color. This results in more color degradation when color values are closer to a median value (128) rather than outlying values, which helps to preserve contrast.
-Obviously this process is not lossless, but it does work fairly well.
+The strings themselves must follow two simple rules;<ol>
+	<li>All ASCII character values must be greater than 33 and less than 126</li>
+	<li>Do not use ASCII values 34 and 92</li>
+	</ol>
+In effect we have 91 possible values with which we can represent the intensity of a color.<br>
+Typical images represent colors with values in range of 0 to 255, so we can divide 91 by 255, which gives us roughly 0.356.<br>
+We use this number as a multiplier to the color values in the image, to get them to fall within acceptable character ranges.<br>
+On the renderscript end we then multiply them back (by 2.8) to "restore" the color. This results in more color degradation when color values are closer to a median value (128) rather than outlying values, which helps to preserve contrast.<br>
+Obviously this process is not lossless, but it does work fairly well.<br>
 
 ## Disclaimer
 
