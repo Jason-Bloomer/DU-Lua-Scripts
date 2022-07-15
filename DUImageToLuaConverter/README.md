@@ -1,13 +1,13 @@
 # DU Image To Lua-string Converter
 
-### Renderscript
+## Renderscript
 
 NOTE: A small portion of the lower part of the image (5 to 8%) will be obstructed or may not be able to fit into the character requirements. Please take this into account when selecting your images.
 
 Use of the included VB.NET program is not required, so long as you are able to convert an image to the proper string format which you can supply the renderscript.
 Simply paste the contents of renderscript.txt into an ingame Screen element of any size, and paste the string for the image you have converted, into the empty double-quotes on line 12. You should be assigning the 'is' variable to the string.
 
-### Image Converter
+## Image Converter
 
 If you do not trust my precompiled VB.net program, you can look at the source code and compile your own if you so desire.
 Following the simple rules above however should be easy enough, if you'd like to create your own conversion script.
@@ -25,7 +25,7 @@ Depending on the size of the image, and the string that was pasted in, you may h
 
 Other than that, simply click "apply", and give the screen about 30 seconds to render the image.
 
-### Technical
+## Technical
 
 The strings themselves must follow two simple rules;
 	All ASCII character values must be greater than 33 and less than 126
