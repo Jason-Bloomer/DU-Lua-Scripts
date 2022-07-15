@@ -9,3 +9,16 @@ E:\Files\Projects\DUImageToLuaConverter\DUImageToLuaConverter\obj\Debug\DUImageT
 E:\Files\Projects\DUImageToLuaConverter\DUImageToLuaConverter\obj\Debug\DUImageToLuaConverter.exe
 E:\Files\Projects\DUImageToLuaConverter\DUImageToLuaConverter\obj\Debug\DUImageToLuaConverter.xml
 E:\Files\Projects\DUImageToLuaConverter\DUImageToLuaConverter\obj\Debug\DUImageToLuaConverter.pdb
+G:\Files\Projects\DUImageToLuaConverter\DUImageToLuaConverter\bin\Debug\DUImageToLuaConverter.exe.config
+G:\Files\Projects\DUImageToLuaConverter\DUImageToLuaConverter\bin\Debug\DUImageToLuaConverter.exe
+G:\Files\Projects\DUImageToLuaConverter\DUImageToLuaConverter\bin\Debug\DUImageToLuaConverter.pdb
+G:\Files\Projects\DUImageToLuaConverter\DUImageToLuaConverter\bin\Debug\DUImageToLuaConverter.xml
+G:\Files\Projects\DUImageToLuaConverter\DUImageToLuaConverter\obj\Debug\DUImageToLuaConverter.vbproj.AssemblyReference.cache
+G:\Files\Projects\DUImageToLuaConverter\DUImageToLuaConverter\obj\Debug\DUImageToLuaConverter.vbproj.SuggestedBindingRedirects.cache
+G:\Files\Projects\DUImageToLuaConverter\DUImageToLuaConverter\obj\Debug\DUImageToLuaConverter.Form1.resources
+G:\Files\Projects\DUImageToLuaConverter\DUImageToLuaConverter\obj\Debug\DUImageToLuaConverter.Resources.resources
+G:\Files\Projects\DUImageToLuaConverter\DUImageToLuaConverter\obj\Debug\DUImageToLuaConverter.vbproj.GenerateResource.cache
+G:\Files\Projects\DUImageToLuaConverter\DUImageToLuaConverter\obj\Debug\DUImageToLuaConverter.vbproj.CoreCompileInputs.cache
+G:\Files\Projects\DUImageToLuaConverter\DUImageToLuaConverter\obj\Debug\DUImageToLuaConverter.exe
+G:\Files\Projects\DUImageToLuaConverter\DUImageToLuaConverter\obj\Debug\DUImageToLuaConverter.xml
+G:\Files\Projects\DUImageToLuaConverter\DUImageToLuaConverter\obj\Debug\DUImageToLuaConverter.pdb

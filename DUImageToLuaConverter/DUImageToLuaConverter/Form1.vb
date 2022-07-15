@@ -31,7 +31,7 @@
         For Ya = 0 To (nativeHeight / resolutionScale) - 1
             For Xa = 0 To (nativeWidth / resolutionScale) - 1
                 For Za = 0 To 2
-                    ImageArray(Xa, Ya, Za) = ImageArray(Xa, Ya, Za) + 33
+                    ImageArray(Xa, Ya, Za) = (ImageArray(Xa, Ya, Za) * 0.356) + 33
                     If ImageArray(Xa, Ya, Za) = 34 Then
                         ImageArray(Xa, Ya, Za) = 33
                     End If

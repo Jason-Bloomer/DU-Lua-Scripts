@@ -4,6 +4,7 @@ if not init then
     rr = 6
     rx, ry = getResolution()
     cx1, cy1 = rx/rr, ry/rr
+    sx, sy = rr, (rr + 1)
     lp = 0
     m1 = {}
     m2 = {}
@@ -37,7 +38,7 @@ function DrawAllPixelsL1()
         for by=1,cy1 do
             for bx=1,cx1 do
                 setNextFillColor(dl1, (m1[bx][by]/255), (m2[bx][by]/255), (m3[bx][by]/255), 1)
-                addBox(dl1, (bx - 1)*rr, (by - 1)*rr, rr, rr)
+                addBox(dl1, (bx - 1)*rr, (by - 1)*sy, rr, sy)
             end
         end
     end
@@ -52,11 +53,11 @@ function LoadLines()
                     lp = lp + 1
                     if string.byte(is, lp) ~= nil then
                         if ch == 1 then
-                            m1[ix4][cl] = (string.byte(is, lp) - 33)*2
+                            m1[ix4][cl] = (string.byte(is, lp) - 33)*2.8
                         elseif ch == 2 then
-                            m2[ix4][cl] = (string.byte(is, lp) - 33)*2
+                            m2[ix4][cl] = (string.byte(is, lp) - 33)*2.8
                         elseif ch == 3 then
-                            m3[ix4][cl] = (string.byte(is, lp) - 33)*2
+                            m3[ix4][cl] = (string.byte(is, lp) - 33)*2.8
                         end
                     end
                 end
