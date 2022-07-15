@@ -37,3 +37,7 @@ Typical images represent colors with values in range of 0 to 255, so we can divi
 We use this number as a multiplier to the color values in the image, to get them to fall within acceptable character ranges.
 On the renderscript end we then multiply them back (by 2.8) to "restore" the color. This results in more color degradation when color values are closer to a median value (128) rather than outlying values, which helps to preserve contrast.
 Obviously this process is not lossless, but it does work fairly well.
+
+## Disclaimer
+
+I take no responsibility for the content you put into screens with this tool. Use it appropriately. Note that NovaQuark has a standard submittal process for using actual image files in-game, and that all images are subject to NovaQuark's EULA and Terms of Service. Any content which violates these terms is subject to punishment at NovaQuark's discretion. My advance appologies to NQ if/when this concept is used in any nefarious manner, but if I didn't do it, someone else would!
