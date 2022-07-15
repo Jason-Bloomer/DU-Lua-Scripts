@@ -13,12 +13,13 @@ If you do not trust my precompiled VB.net program, you can look at the source co
 Following the simple rules above however should be easy enough, if you'd like to create your own conversion script.
 
 To use the Image Converter;
-	Launch the program, and click Browse.
-	Select the image you would like to convert, in the popup window.
-	Select any changes to the images orientation, if any.
-	Click Convert button, and wait for the progress bar to show green.
-	Copy all text from the textbox on the right with ctrl+a and ctrl+c, and paste the string into the 'is' variable on line 12.
-	
+	<ol>
+	<li>Launch the program, and click Browse.</li>
+	<li>Select the image you would like to convert, in the popup window.</li>
+	<li>Select any changes to the images orientation, if any.</li>
+	<li>Click Convert button, and wait for the progress bar to show green.</li>
+	<li>Copy all text from the textbox on the right with ctrl+a and ctrl+c, and paste the string into the 'is' variable on line 12.</li>
+	</ol>
 That's it!
 
 Depending on the size of the image, and the string that was pasted in, you may have to delete a few characters from the end of the string, so that it all fits into the 50,000 character limit.
