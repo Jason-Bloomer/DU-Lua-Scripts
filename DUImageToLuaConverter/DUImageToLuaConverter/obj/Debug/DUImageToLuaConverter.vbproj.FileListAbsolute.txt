@@ -1,0 +1,11 @@
+E:\Files\Projects\DUImageToLuaConverter\DUImageToLuaConverter\bin\Debug\DUImageToLuaConverter.exe.config
+E:\Files\Projects\DUImageToLuaConverter\DUImageToLuaConverter\bin\Debug\DUImageToLuaConverter.exe
+E:\Files\Projects\DUImageToLuaConverter\DUImageToLuaConverter\bin\Debug\DUImageToLuaConverter.pdb
+E:\Files\Projects\DUImageToLuaConverter\DUImageToLuaConverter\bin\Debug\DUImageToLuaConverter.xml
+E:\Files\Projects\DUImageToLuaConverter\DUImageToLuaConverter\obj\Debug\DUImageToLuaConverter.vbprojResolveAssemblyReference.cache
+E:\Files\Projects\DUImageToLuaConverter\DUImageToLuaConverter\obj\Debug\DUImageToLuaConverter.Form1.resources
+E:\Files\Projects\DUImageToLuaConverter\DUImageToLuaConverter\obj\Debug\DUImageToLuaConverter.Resources.resources
+E:\Files\Projects\DUImageToLuaConverter\DUImageToLuaConverter\obj\Debug\DUImageToLuaConverter.vbproj.GenerateResource.Cache
+E:\Files\Projects\DUImageToLuaConverter\DUImageToLuaConverter\obj\Debug\DUImageToLuaConverter.exe
+E:\Files\Projects\DUImageToLuaConverter\DUImageToLuaConverter\obj\Debug\DUImageToLuaConverter.xml
+E:\Files\Projects\DUImageToLuaConverter\DUImageToLuaConverter\obj\Debug\DUImageToLuaConverter.pdb

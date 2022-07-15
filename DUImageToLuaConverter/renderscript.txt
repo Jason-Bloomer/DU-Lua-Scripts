@@ -1,0 +1,74 @@
+if not init then
+    l1 = 0
+    l2 = 0
+    rr = 6
+    rx, ry = getResolution()
+    cx1, cy1 = rx/rr, ry/rr
+    lp = 0
+    m1 = {}
+    m2 = {}
+    m3 = {}
+    is = ""
+    for ix=1,cx1 do
+        m1[ix] = {}
+        for iy=1,cy1 do
+            m1[ix][iy] = 0
+        end
+    end
+    for ix2=1,cx1 do
+        m2[ix2] = {}
+        for iy2=1,cy1 do
+            m2[ix2][iy2] = 0
+        end
+    end
+    for ix3=1,cx1 do
+        m3[ix3] = {}
+        for iy3=1,cy1 do
+            m3[ix3][iy3] = 0
+        end
+    end
+    init = true
+end
+
+dl1 = createLayer()
+
+function DrawAllPixelsL1()
+    if l2 == 1 then
+        for by=1,cy1 do
+            for bx=1,cx1 do
+                setNextFillColor(dl1, (m1[bx][by]/255), (m2[bx][by]/255), (m3[bx][by]/255), 1)
+                addBox(dl1, (bx - 1)*rr, (by - 1)*rr, rr, rr)
+            end
+        end
+    end
+end
+
+function LoadLines()
+    if l1 < cy1 then
+        if l2 == 0 then
+            for ix4=1,cx1 do
+                cl = l1 + 1
+                for ch=1,3 do
+                    lp = lp + 1
+                    if string.byte(is, lp) ~= nil then
+                        if ch == 1 then
+                            m1[ix4][cl] = (string.byte(is, lp) - 33)*2
+                        elseif ch == 2 then
+                            m2[ix4][cl] = (string.byte(is, lp) - 33)*2
+                        elseif ch == 3 then
+                            m3[ix4][cl] = (string.byte(is, lp) - 33)*2
+                        end
+                    end
+                end
+            end
+            l1 = l1 + 1
+            requestAnimationFrame(1)
+        end
+    end
+    if l1 > (cy1 - 10) then
+        l2 = 1
+    end
+end
+
+LoadLines()
+DrawAllPixelsL1()
