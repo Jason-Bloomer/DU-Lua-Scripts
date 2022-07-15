@@ -38,6 +38,8 @@ We use this number as a multiplier to the color values in the image, to get them
 On the renderscript end we then multiply them back (by 2.8) to "restore" the color. This results in more color degradation when color values are closer to a median value (128) rather than outlying values, which helps to preserve contrast.<br>
 Obviously this process is not lossless, but it does work fairly well.<br>
 
+Unfortunately, in it's present state and with DU's current Lua restrictions, it is not possible to push this concept any further, even with the use of Programming Boards. A resolution-reduction factor (the 'rr' variable in the code) of any less than 6 will cause the drawing function to hit the Lua instruction limit. This is not possible to simplify, since every box needs to be drawn on the same frame.
+
 ## Disclaimer
 
 I take no responsibility for the content you put into screens with this tool. Use it appropriately. Note that NovaQuark has a standard submittal process for using actual image files in-game, and that all images are subject to NovaQuark's EULA and Terms of Service. Any content which violates these terms is subject to punishment at NovaQuark's discretion. My advance appologies to NQ if/when this concept is used in any nefarious manner, but if I didn't do it, someone else would!
