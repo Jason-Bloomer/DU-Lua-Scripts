@@ -153,12 +153,14 @@ curx2 = math.floor(cursorx/rr)
 cury2 = math.floor(cursory/rr)
 
 function DrawAllPixelsL1()
+	local lm1, lm2, lm3, rr = mem1, mem2, mem3, rr
+	local sNFC, aB = setNextFillColor, addBox
     for bx=1,cx1 do
         currcost = getRenderCost()
         if currcost < (maxcost*0.9) then
             for by=1,cy1 do
-                setNextFillColor(layer1, mem1[bx][by], mem2[bx][by], mem3[bx][by], 1)
-                addBox(layer1, bx*rr, by*rr, rr,rr)
+                sNFC(layer1, mem1[bx][by], mem2[bx][by], mem3[bx][by], 1)
+                aB(layer1, bx*rr, by*rr, rr,rr)
             end
         end
     end

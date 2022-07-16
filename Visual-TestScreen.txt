@@ -1,0 +1,67 @@
+fontS = loadFont("Montserrat-Light", 15)
+layer1 = createLayer()
+rx, ry = getResolution()
+cx, cy = getCursor()
+cd = getCursorDown()
+cp = getCursorPressed()
+cr = getCursorReleased()
+fontcount = getAvailableFontCount()
+line = 1
+charset = ""
+
+for ix=0,255 do
+    line = math.floor(ix / 32)
+    if ix > 32 and ix < 127 then
+        setNextFillColor(layer1,0,1,0,1)
+        if ix == 34 or ix == 92 then
+            setNextFillColor(layer1,1,0,0,1)
+        end
+    end
+    if ix > 160 and ix < 194 then
+        setNextFillColor(layer1,1,1,0,1)
+    end
+    addText(layer1, fontS, string.char(ix), 30*(ix-(line*32))+30, (55*(line+1))-20)
+    addText(layer1, fontS, ix, 30*(ix-(line*32))+25, 55*(line+1))
+end
+
+setNextFillColor(layer1,1,0,0,1)
+addText(layer1, fontS, "Resolution: " .. math.floor(rx) .. " x " .. math.floor(ry), 10, 15)
+
+setNextFillColor(layer1,1,0.5,0,1)
+addText(layer1, fontS, "Cursor: " .. cx .. " , " .. cy, 200, 15)
+setNextFillColor(layer1,1,1,0,1)
+addText(layer1, fontS, "Down: " .. tostring(cd), 600, 15)
+setNextFillColor(layer1,1,1,0,1)
+addText(layer1, fontS, "Press: " .. tostring(cp), 700, 15)
+setNextFillColor(layer1,1,1,0,1)
+addText(layer1, fontS, "Release: " .. tostring(cr), 800, 15)
+
+
+setNextFillColor(layer1,0,1,1,1)
+addText(layer1, fontS, "Available Fonts: " .. fontcount, 10, 470)
+for ix2=1,fontcount do
+    if ix2 > 6 then
+        setNextFillColor(layer1,0,1,1,1)
+        addText(layer1, fontS, getAvailableFontName(ix2), 150, ((ix2 - 6)*15)+475)
+    else
+        setNextFillColor(layer1,0,1,1,1)
+        addText(layer1, fontS, getAvailableFontName(ix2), 10, (ix2*15)+475)
+    end
+    --getFontMetrics()
+end
+
+ct = getTime()
+dt = getDeltaTime()
+setNextFillColor(layer1,0,1,0,1)
+addText(layer1, fontS, "Time: " .. ct, 400, 475)
+setNextFillColor(layer1,0,1,0,1)
+addText(layer1, fontS, "Delta: " .. dt, 400, 495)
+
+
+rc = getRenderCost()
+rcmax = getRenderCostMax()
+setNextFillColor(layer1,0,0.5,1,1)
+addText(layer1, fontS, "Render Cost: " .. rc .. " / " .. rcmax, 400, 550)
+
+
+requestAnimationFrame(1)
