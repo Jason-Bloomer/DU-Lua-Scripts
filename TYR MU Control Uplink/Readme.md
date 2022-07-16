@@ -24,8 +24,10 @@ Installation steps:
 	<li>Link your detection zone to the PB if you want the script to run when someone is nearby.</li>
 </ol><br>
 <br>
-### If at any point the script stops updating, simply restart the programming board.
+
+#### If at any point the script stops updating, simply restart the programming board.<br>
 Sometimes, it gets stuck. This can happen when the system hits a lagspike, or something. Oof :(
+<br><br>
 
 ## TODO
 
