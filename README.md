@@ -11,4 +11,5 @@ Nothing super complicated here, but perhaps you find some of these scripts usefu
 <li><b>Matrix Code Rain</b> - Creates a "Matrix"-like scrolling backdrop, using a non-Cyrillic character set.</li>
 <li><b>Terminal Stream</b> - Emulates an active terminal, scrolling text with editable technical jargon and color.</li>
 <li><b>Test Screen</b> - Renders every character above its ascii code, including "unavailable" chars. General screen debug.</li>
+<li><b>Voxelmancy Space Gyro Tool</b> - Very simple script that maps 3 Gyroscope elements to 3 toggle keys, for doing voxelmancy in space.</li>
 </ul>
