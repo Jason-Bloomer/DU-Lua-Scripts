@@ -6,7 +6,6 @@ Nothing super complicated here, but perhaps you find some of these scripts usefu
 Scripts with a purpose, or that serve a function.
 
 <ul>
-<li><b>Conway's Game Of Life</b> - GOL done in lua. Runs on an in-game screen. </li>
 <li><b>Door Control</b> - Touch-control screen with 4-digit passcode, for "securely" regulating access to doors or other elements.</li>
 <li><b>Voxelmancy Space Gyro Tool</b> - Very simple script that maps 3 Gyroscope elements to 3 toggle keys, for doing voxelmancy in space.</li>
 </ul>
@@ -15,6 +14,7 @@ Scripts with a purpose, or that serve a function.
 Renderscripts with no real functionality, only a strong visual component for use purely on screen elements.
 
 <ul>
+<li><b>Conway's Game Of Life</b> - GOL done in lua. Runs on an in-game screen. </li>
 <li><b>Drawing Board 1.1</b> - Draw images by hand on a screen using custom colors and a minimalistic UI.</li>
 <li><b>DU Image To Lua-string Converter</b> - Convert images to string which can be loaded and displayed by a single Screen element.</li>
 <li><b>DU OpenMarket Advertisement</b> - An advertisement billboard for DU OpenMarket, my Market API for DU. Cycles between 3 states.</li>
