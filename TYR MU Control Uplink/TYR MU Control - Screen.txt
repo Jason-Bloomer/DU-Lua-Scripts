@@ -29,8 +29,9 @@ if not init then
     warpcellprice = 7000
     hauldistance = 500
     haulermass = 1500
-    uplinkenabled = 0
+    uplinkenabled = 1
     uplinkpress = 0
+    multitablestate = 1
     contexttext = ""
     mem1 = {}
     for ix=1,maxMUs do
@@ -58,12 +59,24 @@ local cx, cy = getCursor()
 local cd = getCursorDown()
 local cp = getCursorPressed()
 local cr = getCursorReleased()
+local colorPrimaryR = 1
+local colorPrimaryG = 1
+local colorPrimaryB = 1
+local colorSecondaryR = 0
+local colorSecondaryG = 0
+local colorSecondaryB = 0
+local colorTertiaryR = 0.1
+local colorTertiaryG = 0.1
+local colorTertiaryB = 0.4
+local colorQuaternaryR = 0.05
+local colorQuaternaryG = 0.05
+local colorQuaternaryB = 0.05
 local rcmax = getRenderCostMax()
 local rccurr = getRenderCost()
 local tilevalue = 0
 local tilecost = 0
 contexttext = ""
-setBackgroundColor(0.05, 0.05, 0.05)
+setBackgroundColor(colorQuaternaryR, colorQuaternaryG, colorQuaternaryB)
 
 function round(num, numDecimalPlaces)
   local mult = 10^(numDecimalPlaces or 0)
@@ -132,7 +145,21 @@ function drawUplinkWidget(drawlayer,strkwdth,width,height,xin,yin)
         if cx < xin+width then
             if cy > yin-height then
                 if cy < yin+height then
-                    contexttext = "Feature Not Available"
+                    if uplinkenabled == 1 then
+                        contexttext = "Click to Disable."
+                    else
+                        contexttext = "Click to Enable."
+                    end
+                    if cp == true then
+                        uplinkpress = 1
+                    end
+                    if cr == true and uplinkpress == 1 then
+                        if uplinkenabled == 1 then
+                            uplinkenabled = 0
+                        else
+                            uplinkenabled = 1
+                        end 
+                    end
                 end
             end
         end
@@ -280,10 +307,30 @@ function DrawEstimationsTable(tempx, tempy, tilevalue, tilecost)
     addText(layer3, fontM2, "Tile Value: " .. tileappraisal .. " h after 3 months", tempx+550,560)
 end
 
-assetimagehandle = loadImage("http://assets.prod.novaquark.com/66839/49273f08-d4ab-4e33-a5a1-c105b051b587.png")
+function DrawCalibrationTable(tempx, tempy, tilevalue, tilecost)
+    setNextFillColor(layer3,0.8,0.8,0.2,0.7)
+    addText(layer3, fontM, "Calibrations:", tempx+550,340)
+    for xxb=1,10 do
+        setNextFillColor(layer3,0.5,0.5,0.5,0.7)
+        addText(layer3, fontM2, "Epicphail - 57879 - MU1 - 65% - 3120.0 L", tempx+550,380+((xxb - 1)*20))
+    end
+end
+
+assetimagehandle = loadImage("assets.prod.novaquark.com/66839/49273f08-d4ab-4e33-a5a1-c105b051b587.png")
+local bgimg1 = loadImage("assets.prod.novaquark.com/66839/022069f8-6b81-42ac-8623-c3514f0b567b.png")
+local bgimg2 = loadImage("assets.prod.novaquark.com/66839/e62c54b7-89ff-45ca-9bfe-30c320b66533.png")
+
 if showimgbg == 1 then
-    imagehandle = loadImage("http://assets.prod.novaquark.com/66839/b57544ee-8b57-40b0-85ec-c629d59007d9.png")
-    addImage(layer, imagehandle, 0, 0, rx, ry)
+    if showactivationscreen == 0 then
+        addImage(layer, bgimg2, 0, 0, rx, ry)
+        setNextFillColor(layer, 0, 0, 0, 0.75)
+        addBox(layer,0,0,rx,ry)
+    else
+        addImage(layer, bgimg1, 0, 0, rx, ry)
+    end
+else
+    setNextFillColor(layer, 0, 0, 0, 1)
+    addBox(layer,0,0,rx,ry)
 end
 
 if getInput() then
@@ -505,24 +552,23 @@ if showactivationscreen == 0 then
     drawUplinkWidget(layer3,5,50,50,940,90)
     
     DrawMultiTableFrame()
-    DrawEstimationsTable(tempx, tempy, tilevalue, tilecost)
+    if multitablestate == 1 then
+        DrawEstimationsTable(tempx, tempy, tilevalue, tilecost)
+    end
+    if multitablestate == 2 then
+        DrawCalibrationTable(tempx, tempy)
+    end
 else
     --PB is deactivated, show activation prompt
-    setNextFillColor(layer2, 0,0,0,0.6)
-    addBox(layer2,0,0,rx,ry)
+    --setNextFillColor(layer2, 0,0,0,0.6)
+    --addBox(layer2,0,0,rx,ry)
 
-    setNextFillColor(layer3, 0,0,0,0.6)
-    setNextShadow(layer3, 20,0,0,0,0.5)
-    addBoxRounded(layer3,80,(ry/2)-(ry/3)/2,rx - 160,ry/3,30)
-
-    setNextFillColor(layer3,0.5,0.5,0.5,0.5)
-    addText(layer3, fontXLb, "TYR Expeditionary Group", rx*0.15,ry*0.45 )
+    setNextFillColor(layer2, 0.9, 0.9, 0.9, 1)
+    setNextShadow(layer2, 20, 0, 0, 0, 0.85)
+    addText(layer2, fontL, "Mining Unit Control Uplink", rx*0.205,ry*0.675 )
     
-    setNextFillColor(layer3,0.3,0.3,0.3,0.5)
-    addText(layer3, fontXL, "Mining Unit Control Uplink", rx*0.15,ry*0.55 )
-    
-    setNextFillColor(layer3,0.3,0.5,0.9,0.5)
-    addText(layer3, fontM, "Activate Programming Board to view status.", rx*0.17,ry*0.62 )
+    setNextFillColor(layer2, 0.9, 0.7, 0, 0.75)
+    addText(layer2, fontM, "Activate Programming Board to view status.", rx*0.205,ry*0.72 )
 end
 
 
