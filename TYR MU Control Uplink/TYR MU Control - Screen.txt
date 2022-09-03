@@ -170,9 +170,9 @@ end
 function DrawTYRFooter()
     --If you modify our script, please leave this intact
     setNextFillColor(layer4, 1, 1, 1, 0.1)
-    addText(layer4, fontS, "Developed by TYR Expedition Group", rx*0.65, ry - 15)
+    addText(layer4, fontS, "Developed by TYR Expeditionary Group", rx*0.65, ry - 15)
     setNextFillColor(layer4, 1, 1, 1, 0.2)
-    addText(layer4, fontS, "Developed by TYR Expedition Group", rx*0.65 - 2, ry - 15 - 2)
+    addText(layer4, fontS, "Developed by TYR Expeditionary Group", rx*0.65 - 2, ry - 15 - 2)
 end
 
 function drawHexWidget1(tick)
