@@ -7,6 +7,8 @@ Scripts with a purpose, or that serve a function.
 
 <ul>
 <li><b>Door Control</b><ul><li>Touch-control screen with 4-digit passcode, for "securely" regulating access to doors or other elements.</li></ul></li>
+<li><b>TYR Mining Unit Control Uplink</b><ul><li>Displays stats for up to 7 Mining Units. Updates in real-time.</li></ul></li>
+<li><b>TYR Ship Sales Kiosk</b><ul><li>Displays flight-stats and images of constructs, fully configurable. Screen ONLY, no order placement.</li></ul></li>
 <li><b>Voxelmancy Space Gyro Tool</b><ul><li>Very simple script that maps 3 Gyroscope elements to 3 toggle keys, for doing voxelmancy in space.</li></ul></li>
 </ul>
 
