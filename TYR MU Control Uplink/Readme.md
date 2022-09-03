@@ -4,6 +4,8 @@ This script will provide a simple but elegant report for Mining Units in Dual Un
 
 Originally written for TYR Expedition Group, I have been given permission to open source the code and provide it free to anyone who wishes to use it or improve upon it.
 
+You may remove the TYR branding at your discretion, however we ask that if you're going to use our script without significant modification, that you please at least keep the mostly-transparent footer at the bottom intact for our recognition.
+
 ## Usage
 
 You will need:<br>
