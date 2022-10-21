@@ -16,7 +16,7 @@ Scripts with a purpose, or that serve a function.
 Renderscripts with no real functionality, only a strong visual component for use purely on screen elements.
 
 <ul>
-<li><b>Conway's Game Of Life</b><ul><li>GOL done in lua. Runs on an in-game screen.</li></ul></li>
+<li><b>Conway's Game Of Life</b><ul><li>GOL done in lua. Runs on an in-game screen. (currently not working)</li></ul></li>
 <li><b>Drawing Board 1.1</b><ul><li>Draw images by hand on a screen using custom colors and a minimalistic UI.</li></ul></li>
 <li><b>DU Image To Lua-string Converter</b><ul><li>Convert images to string which can be loaded and displayed by a single Screen element.</li></ul></li>
 <li><b>DU OpenMarket Advertisement</b><ul><li>An advertisement billboard for DU OpenMarket, my Market API for DU. Cycles between 4 states.</li></ul></li>
