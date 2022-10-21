@@ -6,6 +6,7 @@ if not init then
     a = 2 * math.pi / 6
     r = 100
     display = 1
+    displaymax = 4
     displaytick = 0
     displaytickmax = 175
     init = true
@@ -22,10 +23,11 @@ local fontB3 = loadFont("Play", 72)
 local fontM = loadFont("Play", 50)
 local fontS = loadFont("Play", 40)
 local imagehandle = loadImage("assets.prod.novaquark.com/66839/b249f117-4120-472e-8c12-d84c04c28775.png")
+local imagehandle2 = loadImage("assets.prod.novaquark.com/66839/8452f802-cb36-40ec-9d26-f5530a82ac1c.png")
 
 if display == 1 then
     
-    addImage(layer, imagehandle, 0, 0, 1024, 575)
+    addImage(layer, imagehandle, 0, 0, rx, ry)
     
     --setNextFillColor(layer, 1, 0, 0, 1)
     --addText(layer, fontS, "In Development", rx*0.02, ry*0.08)
@@ -45,13 +47,13 @@ if display == 1 then
     addText(layer3, fontM, "with Discord-based login", rx*0.235, ry*0.74)
     
     setNextShadow(layer3,15,0,0,0,1)
-    setNextFillColor(layer3, 1, 0.85, 0, 1)
-    addText(layer3, fontL, "https://duopenmarket.xyz", rx*0.04, ry*0.9)
+    setNextFillColor(layer3, 2, 2, 0, 1)
+    addText(layer3, fontL, "https://duopenmarket.com", rx*0.025, ry*0.9)
     
     
     setNextShadow(layer4,15,0,0,0,1)
     setNextFillColor(layer4, 1, 0.85, 0, 1)
-    addText(layer4, fontM, "Version 0.50.1", rx*0.04, ry*0.07)
+    addText(layer4, fontM, "Version 1.61.1", rx*0.04, ry*0.07)
     
     setNextShadow(layer4,15,0,0,0,1)
     setNextFillColor(layer4, 1, 0.85, 0, 1)
@@ -79,8 +81,31 @@ if display == 1 then
 end
 
 if display == 2 then
+    addImage(layer, imagehandle, 0, 0, rx, ry)
+    addImage(layer2, imagehandle2, -50, -75, rx, ry)
     
-    addImage(layer, imagehandle, 0, 0, 1024, 575)
+    setNextShadow(layer3,15,0,0,0,1)
+    setNextFillColor(layer3, 0.85, 0.85, 0.15, 1)
+    addText(layer3, fontS, "Tired of spreadsheets?", rx*0.05, ry*0.1)
+    
+    setNextShadow(layer3,15,0,0,0,1)
+    setNextFillColor(layer3, 0.85, 0.85, 0.15, 1)
+    addText(layer3, fontS, "Try graphs instead!", rx*0.05, ry*0.175)
+    
+    
+    setNextShadow(layer3,15,0,0,0,1)
+    setNextFillColor(layer3, 0.85, 0.85, 0.15, 1)
+    addText(layer3, fontS, "Automatically generated historical statistics", rx*0.05, ry*0.7)
+    
+    
+    setNextShadow(layer3,15,0,0,0,1)
+    setNextFillColor(layer3, 2, 2, 0, 1)
+    addText(layer3, fontL, "https://duopenmarket.com", rx*0.025, ry*0.9)
+end
+
+if display == 3 then
+    
+    addImage(layer, imagehandle, 0, 0, rx, ry)
     
     setNextShadow(layer3,15,0,0,0,1)
     setNextFillColor(layer3, 0.75, 0.75, 0.75, 1)
@@ -92,33 +117,29 @@ if display == 2 then
     
     setNextShadow(layer3,15,0,0,0,1)
     setNextFillColor(layer3, 0.45, 0.85, 0.25, 1)
-    addText(layer3, fontM, "Advanced Searching", rx*0.05, ry*0.3)
+    addText(layer3, fontM, "Advanced Searching, save search terms", rx*0.05, ry*0.3)
     
     setNextShadow(layer3,15,0,0,0,1)
     setNextFillColor(layer3, 0.45, 0.85, 0.25, 1)
-    addText(layer3, fontM, "Save / Bookmark Searches", rx*0.05, ry*0.4)
+    addText(layer3, fontM, "Small client, low resource use", rx*0.05, ry*0.4)
     
     setNextShadow(layer3,15,0,0,0,1)
     setNextFillColor(layer3, 0.45, 0.85, 0.25, 1)
-    addText(layer3, fontM, "Small client, low resource use", rx*0.05, ry*0.5)
+    addText(layer3, fontM, "Sort by price, market, quantity, etc", rx*0.05, ry*0.5)
     
     setNextShadow(layer3,15,0,0,0,1)
     setNextFillColor(layer3, 0.45, 0.85, 0.25, 1)
-    addText(layer3, fontM, "Sort by price, market, quantity, etc", rx*0.05, ry*0.6)
+    addText(layer3, fontM, "History trend Graphing and Economy stats", rx*0.05, ry*0.6)
     
     setNextShadow(layer3,15,0,0,0,1)
-    setNextFillColor(layer3, 0.45, 0.85, 0.25, 1)
-    addText(layer3, fontM, "Supports all new items added in Athena", rx*0.05, ry*0.7)
-    
-    setNextShadow(layer3,15,0,0,0,1)
-    setNextFillColor(layer3, 1, 0.85, 0, 1)
-    addText(layer3, fontL, "https://duopenmarket.xyz", rx*0.04, ry*0.9)
+    setNextFillColor(layer3, 2, 2, 0, 1)
+    addText(layer3, fontL, "https://duopenmarket.com", rx*0.025, ry*0.9)
     
 end
 
-if display == 3 then
+if display == 4 then
     
-    addImage(layer, imagehandle, 0, 0, 1024, 575)
+    addImage(layer, imagehandle, 0, 0, rx, ry)
     
     setNextShadow(layer3,15,0,0,0,1)
     setNextFillColor(layer3, 0.75, 0.75, 0.75, 1)
@@ -126,31 +147,27 @@ if display == 3 then
     
     setNextShadow(layer3,15,0,0,0,1)
     setNextFillColor(layer3, 0.85, 0.45, 0.25, 1)
-    addText(layer3, fontM, "Schematic Item Support", rx*0.05, ry*0.2)
+    addText(layer3, fontM, "Profit and Margin calculators for industry", rx*0.05, ry*0.2)
     
     setNextShadow(layer3,15,0,0,0,1)
     setNextFillColor(layer3, 0.85, 0.45, 0.25, 1)
-    addText(layer3, fontM, "Trend graphs for item price/volume", rx*0.05, ry*0.3)
+    addText(layer3, fontM, "Cost/value calculator for constructs", rx*0.05, ry*0.3)
     
     setNextShadow(layer3,15,0,0,0,1)
     setNextFillColor(layer3, 0.85, 0.45, 0.25, 1)
-    addText(layer3, fontM, "Profit and Margin calculators for industry", rx*0.05, ry*0.4)
+    addText(layer3, fontM, "Construct / Blueprint / Script Market", rx*0.05, ry*0.4)
     
     setNextShadow(layer3,15,0,0,0,1)
     setNextFillColor(layer3, 0.85, 0.45, 0.25, 1)
-    addText(layer3, fontM, "Cost/value calculator for constructs", rx*0.05, ry*0.5)
+    addText(layer3, fontM, "Public anti-scam Reputation directory", rx*0.05, ry*0.5)
     
     setNextShadow(layer3,15,0,0,0,1)
     setNextFillColor(layer3, 0.85, 0.45, 0.25, 1)
-    addText(layer3, fontM, "Construct / Blueprint / Script Market", rx*0.05, ry*0.6)
+    addText(layer3, fontM, "...And more!", rx*0.05, ry*0.7)
     
     setNextShadow(layer3,15,0,0,0,1)
-    setNextFillColor(layer3, 0.85, 0.45, 0.25, 1)
-    addText(layer3, fontM, "Public anti-scam Reputation directory", rx*0.05, ry*0.7)
-    
-    setNextShadow(layer3,15,0,0,0,1)
-    setNextFillColor(layer3, 1, 0.85, 0, 1)
-    addText(layer3, fontL, "https://duopenmarket.xyz", rx*0.04, ry*0.9)
+    setNextFillColor(layer3, 2, 2, 0, 1)
+    addText(layer3, fontL, "https://duopenmarket.com", rx*0.025, ry*0.9)
     
 end
 
@@ -158,14 +175,10 @@ end
 if displaytick < displaytickmax then
     displaytick = displaytick + 1
 else
-    if display == 1 then
-        display = 2
+    if display == displaymax then
+        display = 1
     else
-        if display == 2 then
-            display = 3
-        else
-            display = 1
-        end
+        display = display + 1
     end
     displaytick = 0
 end

@@ -1,0 +1,77 @@
+if not init then
+    anim = 0
+    animtick = 0
+    animtickmax = 100
+    display = 1
+    nextdisplay = 1
+    displaymax = 20
+    displaytick = 0
+    displaytickmax = 175
+    images = {}
+    for xa=1,displaymax do
+        images[xa] = ""
+    end
+
+    images[1] = "assets.prod.novaquark.com/66839/b249f117-4120-472e-8c12-d84c04c28775.png"
+    images[2] = "assets.prod.novaquark.com/66839/8452f802-cb36-40ec-9d26-f5530a82ac1c.png"
+    images[3] = "assets.prod.novaquark.com/10847/74614e8a-3e83-4054-ae34-5bd13e80b3fe.jpg"
+    images[4] = "assets.prod.novaquark.com/10847/2652fe31-3c4b-4daa-b1d2-4d25ec230cae.jpg"
+    images[5] = "assets.prod.novaquark.com/51710/a31ce61b-b290-49fd-b8cc-60ed50837e86.jpg"
+    images[6] = "assets.prod.novaquark.com/60816/b543e8eb-deb8-4319-926e-0bea0da6aa91.jpg"
+    images[7] = "assets.prod.novaquark.com/60816/d457cdb8-67bc-43b5-97e8-afcad2c42dde.jpg"
+    images[8] = "assets.prod.novaquark.com/15526/661fe770-9e52-4026-be44-7834c37da61c.jpg"
+    images[9] = "assets.prod.novaquark.com/15526/b7826b57-3ca0-4721-8bb3-13b47986dc9b.jpg"
+    images[10] = "assets.prod.novaquark.com/15526/e9d43aac-6706-486f-b91d-78024fac4679.jpg"
+    images[11] = "assets.prod.novaquark.com/15526/f79d0256-34c1-4945-b786-91027681b6df.png"
+    images[12] = "assets.prod.novaquark.com/3014/10bcb0e9-1ac9-44bf-9174-afb1854cce13.jpg"
+    images[12] = "assets.prod.novaquark.com/35519/b997a7b6-6217-4394-b34c-fa1ef6fee1d0.png"
+    images[13] = "assets.prod.novaquark.com/40256/19e9ef08-6674-4ab5-a9cf-708c2ed3c9be.jpg"
+    images[14] = "assets.prod.novaquark.com/40256/ae88a73f-acb0-45d1-a164-047084905db9.jpg"
+    images[15] = "assets.prod.novaquark.com/40256/fefa0f2d-31ee-4023-9ff7-abde8f43a00b.jpg"
+    images[16] = "assets.prod.novaquark.com/4745/566b4304-6cc5-4d3d-92ea-44b7f03f453d.jpg"
+    images[17] = "assets.prod.novaquark.com/60491/0ea71244-19fe-417f-bca2-6927bcafd9cd.jpg"
+    images[18] = "assets.prod.novaquark.com/60816/2c93cca6-f883-4be2-a279-396af1498efb.jpg"
+    images[19] = "assets.prod.novaquark.com/60816/6a2a2a2d-e9bd-403d-b87f-bec526314869.jpg"
+    images[20] = "assets.prod.novaquark.com/60816/814bd0e5-a651-410d-a2b7-0cc885c8ed7f.png"
+
+    imagehandle = 0
+    init = true
+end
+local layer = createLayer()
+local rx, ry = getResolution()
+
+imagehandle = loadImage(images[display])
+imagehandle2 = loadImage(images[nextdisplay])
+if anim == 1 then
+    if animtick < animtickmax then
+        if display == displaymax then
+            nextdisplay = 1
+        else
+            nextdisplay = display + 1
+        end
+        local animprcnt = animtick/animtickmax
+        addImage(layer, imagehandle, 0 - rx*animprcnt, 0, rx, ry)
+        addImage(layer, imagehandle2, 0 - (rx*animprcnt) + rx, 0, rx, ry)
+        animtick = animtick + 1
+    else
+        if display == displaymax then
+            display = 1
+        else
+            display = display + 1
+        end
+        displaytick = 0
+        anim = 0
+        addImage(layer, imagehandle2, 0, 0, rx, ry)
+        animtick = 0
+    end
+else
+    addImage(layer, imagehandle, 0, 0, rx, ry)
+end
+
+if displaytick < displaytickmax then
+    displaytick = displaytick + 1
+else
+    anim = 1
+end
+
+requestAnimationFrame(1)

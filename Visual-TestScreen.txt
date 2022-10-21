@@ -1,5 +1,27 @@
-fontS = loadFont("Montserrat-Light", 15)
+--simple persistence across frames, global varialbes must be created here
+if not init then
+    tabindex = 1
+    textbuffer = {}
+    for ix=1,2 do
+        textbuffer[ix] = ""
+    end
+    bufferselect = 1
+    a = 2 * math.pi / 6
+    r = 100
+    slidervalue = 100
+    fontselect = 1
+    fontselectmax = 12
+    init = true
+end
+
+fontS = loadFont("Play", 15)
+fonttab = {}
+fontnames = {"FiraMono", "FiraMono-Bold", "Montserrat", "Montserrat-Light", "Montserrat-Bold", "Play", "Play-Bold", "RefrigeratorDeluxe", "RefrigeratorDeluxe-Light", "RobotoCondensed", "RobotoMono", "RobotoMono-Bold"}
+for ia=fontselect,fontselect+4 do
+    fonttab[ia] = loadFont(fontnames[ia], 15)
+end
 layer1 = createLayer()
+layer2 = createLayer()
 rx, ry = getResolution()
 cx, cy = getCursor()
 cd = getCursorDown()
@@ -9,59 +31,227 @@ fontcount = getAvailableFontCount()
 line = 1
 charset = ""
 
-for ix=0,255 do
-    line = math.floor(ix / 32)
-    if ix > 32 and ix < 127 then
-        setNextFillColor(layer1,0,1,0,1)
-        if ix == 34 or ix == 92 then
-            setNextFillColor(layer1,1,0,0,1)
+function DrawCharacterSet()
+    for ix=0,255 do
+        line = math.floor(ix / 32)
+        if ix > 32 and ix < 127 then
+            setNextFillColor(layer1,0,1,0,1)
+            if ix == 34 or ix == 92 then
+                setNextFillColor(layer1,1,0,0,1)
+            end
+        end
+        if ix > 160 and ix < 194 then
+            setNextFillColor(layer1,1,1,0,1)
+        end
+        addText(layer1, fontS, string.char(ix), 30*(ix-(line*32))+30, (65*(line+1))+30)
+        addText(layer1, fontS, ix, 30*(ix-(line*32))+25, 65*(line+1)+50)
+    end
+end
+
+function DrawButton(drawlayer, btnx, btny, btnw, btnh, btntxt, callfunc)
+    setNextFillColor(drawlayer, 0.35, 0.35, 0.35, 1)
+    if cx > btnx and cx < (btnx+btnw) then
+        if cy > btny and cy < (btny+btnh) then
+            if getCursorReleased() == true then
+                --clicked
+                setNextFillColor(drawlayer, 1, 0, 0, 1)
+                callfunc()
+            else
+                --hovered
+                setNextFillColor(drawlayer, 1, 1, 0, 1)
+            end
         end
     end
-    if ix > 160 and ix < 194 then
-        setNextFillColor(layer1,1,1,0,1)
-    end
-    addText(layer1, fontS, string.char(ix), 30*(ix-(line*32))+30, (55*(line+1))-20)
-    addText(layer1, fontS, ix, 30*(ix-(line*32))+25, 55*(line+1))
+    setNextStrokeWidth(drawlayer, 0)
+    addBoxRounded(drawlayer, btnx, btny, btnw, btnh, 5)
+    setNextFillColor(drawlayer, 1, 1, 1, 1)
+    local txtw, txty = getTextBounds(fontS,btntxt)
+    addText(drawlayer, fontS, btntxt, btnx + ((btnw - txtw)/2), btny + (btnh/2)+(txty/2))
 end
 
-setNextFillColor(layer1,1,0,0,1)
-addText(layer1, fontS, "Resolution: " .. math.floor(rx) .. " x " .. math.floor(ry), 10, 15)
+function DrawScreenInfo()
+    setNextFillColor(layer1,1,0,0,1)
+    addText(layer1, fontS, "Resolution: " .. math.floor(rx) .. " x " .. math.floor(ry), 80, 80)
 
-setNextFillColor(layer1,1,0.5,0,1)
-addText(layer1, fontS, "Cursor: " .. cx .. " , " .. cy, 200, 15)
-setNextFillColor(layer1,1,1,0,1)
-addText(layer1, fontS, "Down: " .. tostring(cd), 600, 15)
-setNextFillColor(layer1,1,1,0,1)
-addText(layer1, fontS, "Press: " .. tostring(cp), 700, 15)
-setNextFillColor(layer1,1,1,0,1)
-addText(layer1, fontS, "Release: " .. tostring(cr), 800, 15)
+    setNextFillColor(layer1,1,0.5,0,1)
+    addText(layer1, fontS, "Cursor: " .. cx .. " , " .. cy, 80, 100)
+    setNextFillColor(layer1,1,1,0,1)
+    addText(layer1, fontS, "Down: " .. tostring(cd), 80, 120)
+    setNextFillColor(layer1,1,1,0,1)
+    addText(layer1, fontS, "Press: " .. tostring(cp), 80, 140)
+    setNextFillColor(layer1,1,1,0,1)
+    addText(layer1, fontS, "Release: " .. tostring(cr), 80, 160)
 
+    ct = getTime()
+    dt = getDeltaTime()
+    setNextFillColor(layer1,0,1,0,1)
+    addText(layer1, fontS, "Time: " .. ct, 80, 200)
+    setNextFillColor(layer1,0,1,0,1)
+    addText(layer1, fontS, "Delta: " .. dt, 80, 220)
 
-setNextFillColor(layer1,0,1,1,1)
-addText(layer1, fontS, "Available Fonts: " .. fontcount, 10, 470)
-for ix2=1,fontcount do
-    if ix2 > 6 then
+    rc = getRenderCost()
+    rcmax = getRenderCostMax()
+    setNextFillColor(layer1,0,0.5,1,1)
+    addText(layer1, fontS, "Render Cost: " .. rc .. " / " .. rcmax, 80, 300)
+    
+    setNextFillColor(layer1,0,1,1,1)
+    addText(layer1, fontS, "Available Fonts: " .. fontcount, 80, 470)
+    local prevfontselect = fontselect
+    local output = function() if fontselect > 1 then fontselect = fontselect - 1 end end
+    DrawButton(layer1, 40, 450, 35, 35, "<", output)
+    local output = function() if fontselect < fontselectmax - 4 then fontselect = fontselect + 1 end end
+    DrawButton(layer1, 300, 450, 35, 35, ">", output)
+    for aa=prevfontselect,prevfontselect+4 do
         setNextFillColor(layer1,0,1,1,1)
-        addText(layer1, fontS, getAvailableFontName(ix2), 150, ((ix2 - 6)*15)+475)
+        addText(layer1, fonttab[aa], fontnames[aa], 100, ((aa - prevfontselect)*15)+495)
+    end
+end
+
+function DrawOSK()
+    --generate on-screen keyboard
+    local keyinc = 0
+    for af=33,127 do
+        if af == 127 then
+            --backspace
+            liney = math.floor(keyinc / 16)
+            linex = keyinc - (liney*16)
+            output = function() textbuffer[bufferselect] = string.sub(textbuffer[bufferselect],1,string.len(textbuffer[bufferselect])-1) end
+            DrawButton(layer1, 320+(linex*35), 250+(liney*35), 60, 25, "BKSPC", output)
+            keyinc = keyinc + 1
+        else
+            liney = math.floor(keyinc / 16)
+            linex = keyinc - (liney*16)
+            output = function() textbuffer[bufferselect] = textbuffer[bufferselect] .. string.char(af) end
+            DrawButton(layer1, 320+(linex*35), 250+(liney*35), 25, 25, string.char(af), output)
+            keyinc = keyinc + 1
+        end
+    end
+end
+
+function drawCircularProgressBar(layerin,xin,yin,rad,v,vmax)
+    local prcnt = v/vmax
+    local angle = prcnt*360
+    local cntr = 0  
+    --progress circles
+    for xb = 1,20 do
+        cntr = cntr + 0.05
+        setNextStrokeWidth(layerin,1)
+        setNextStrokeColor(layerin,0,0,0,0)
+        setNextFillColor(layerin,0,0.2,0.7,1)
+        addCircle(layerin,xin+(math.cos((prcnt*cntr)*(math.pi*2))*rad),yin+(math.sin((prcnt*cntr)*(math.pi*2))*rad),rad/3)
+    end
+    --center circle
+    setNextStrokeWidth(layerin,2)
+    setNextStrokeColor(layerin,0,0,0,0)
+    setNextFillColor(layerin,0.5,0.5,0.5,1)
+    addCircle(layerin,xin,yin,rad/2+(rad/4))
+    --outer circle
+    setNextStrokeWidth(layerin,3)
+    setNextStrokeColor(layerin,0.5,0.5,0.5,1)
+    setNextFillColor(layerin,0,0,0,0)
+    addCircle(layerin,xin,yin,rad+(rad/3))
+    --position circle
+    setNextStrokeWidth(layerin,1)
+    setNextStrokeColor(layerin,0.75,0.75,0.75,1)
+    setNextFillColor(layerin,0.75,0.75,0.75,1)
+    addCircle(layerin,xin+(math.cos(prcnt*(math.pi*2))*rad),yin+(math.sin(prcnt*(math.pi*2))*rad),rad/3)
+end
+
+function DrawSlider(drawlayer, btnx, btny, btnw, btnh, value)
+    setNextFillColor(drawlayer, 0.35, 0.35, 0.35, 1)
+    if cx > btnx and cx < (btnx+btnw) then
+        if cy > (btny-(btnh*0.5)) and cy < (btny+(btnh*0.5)) then
+            if cd == true then
+                --clicked
+                setNextFillColor(drawlayer, 1, 0, 0, 1)
+                slidervalue = ((cx - btnx)/btnw)*100
+            else
+                --hovered
+                setNextFillColor(drawlayer, 1, 1, 0, 1)
+            end
+        end
+    end
+    setNextStrokeWidth(drawlayer, 0)
+    addBoxRounded(drawlayer, btnx, btny-(btnh*0.25), btnw, btnh-(btnh*0.5), 5)
+    setNextFillColor(drawlayer, 1, 1, 1, 1)
+    addBoxRounded(drawlayer, btnx+((value*0.01)*btnw), btny-(btnh*0.5), 15, btnh, 5)
+end
+
+function addHexagon(inlayer,hexx,hexy,rad,strkwdth,sr,sg,sb,shwdth,shr,shg,shb,alpha)
+    for ia=0,5 do
+        setNextShadow(inlayer,shwdth,shr,shg,shb,alpha)
+        setNextStrokeWidth(inlayer,strkwdth)
+        setNextStrokeColor(inlayer,sr,sg,sb,alpha)
+        addLine(inlayer,hexx + (r + rad) * math.cos(a * ia), hexy + (r + rad) * math.sin(a * ia),hexx + (r + rad) * math.cos(a * (ia+1)), hexy + (r + rad) * math.sin(a * (ia+1)))
+    end
+end
+
+--Simple tab pane to keep things organized
+setNextFillColor(layer1,0.1,0.1,0.1,1)
+addBox(layer1,0,50,rx,ry - 50)
+local output = function() tabindex = 1 end
+DrawButton(layer1,10,10,100,30,"Charset",output)
+local output = function() tabindex = 2 end
+DrawButton(layer1,130,10,100,30,"Screen",output)
+local output = function() tabindex = 3 end
+DrawButton(layer1,250,10,100,30,"Inputs",output)
+local output = function() tabindex = 4 end
+DrawButton(layer1,370,10,100,30,"Bars / Meters",output)
+local output = function() tabindex = 5 end
+DrawButton(layer1,490,10,100,30,"Shapes",output)
+local output = function() tabindex = 6 end
+DrawButton(layer1,610,10,100,30,"Images",output)
+
+    assetimagehandle = loadImage("assets.prod.novaquark.com/66839/49273f08-d4ab-4e33-a5a1-c105b051b587.png")
+if tabindex == 1 then
+    DrawCharacterSet()
+end
+if tabindex == 2 then
+    DrawScreenInfo()
+end
+if tabindex == 3 then
+    --text buffer 1
+    if bufferselect == 1 then
+        setNextFillColor(layer1,0.05,0.05,0.15,1)
     else
-        setNextFillColor(layer1,0,1,1,1)
-        addText(layer1, fontS, getAvailableFontName(ix2), 10, (ix2*15)+475)
+        setNextFillColor(layer1,0.05,0.05,0.05,1)
     end
-    --getFontMetrics()
+    addBox(layer1,420,180,400,20)
+    setNextFillColor(layer1,1,1,1,1)
+    addText(layer1,fontS,textbuffer[1],420,195)
+    output = function() bufferselect = 1 end
+    DrawButton(layer1, 320, 180, 80, 15, "Buffer 1", output)
+    
+    --text buffer 2
+    if bufferselect == 2 then
+        setNextFillColor(layer1,0.05,0.05,0.15,1)
+    else
+        setNextFillColor(layer1,0.05,0.05,0.05,1)
+    end
+    addBox(layer1,420,210,400,20)
+    setNextFillColor(layer1,1,1,1,1)
+    addText(layer1,fontS,textbuffer[2],420,225)
+    output = function() bufferselect = 2 end
+    DrawButton(layer1, 320, 210, 80, 15, "Buffer 2", output)
+    
+    DrawOSK()
 end
-
-ct = getTime()
-dt = getDeltaTime()
-setNextFillColor(layer1,0,1,0,1)
-addText(layer1, fontS, "Time: " .. ct, 400, 475)
-setNextFillColor(layer1,0,1,0,1)
-addText(layer1, fontS, "Delta: " .. dt, 400, 495)
-
-
-rc = getRenderCost()
-rcmax = getRenderCostMax()
-setNextFillColor(layer1,0,0.5,1,1)
-addText(layer1, fontS, "Render Cost: " .. rc .. " / " .. rcmax, 400, 550)
-
-
+if tabindex == 4 then
+    drawCircularProgressBar(layer1,200,200,50,slidervalue,100)
+    DrawSlider(layer1,400,200,150,50,slidervalue)
+end
+if tabindex == 5 then
+    addHexagon(layer1,200,200,25,5,1,1,1,20,0,0,0,1)
+end
+if tabindex == 6 then
+    for it=1,15 do
+        setNextFillColor(layer2, 1,1,1,1)
+        addImageSub(layer2,assetimagehandle,50*it,355,77.5,77.5,0,0,155,155)
+    end
+    
+    rc = getRenderCost()
+    rcmax = getRenderCostMax()
+    setNextFillColor(layer1,0,0.5,1,1)
+    addText(layer1, fontS, "Render Cost: " .. rc .. " / " .. rcmax, 80, 300)
+end
 requestAnimationFrame(1)
