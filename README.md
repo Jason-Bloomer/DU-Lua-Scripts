@@ -19,8 +19,9 @@ Renderscripts with no real functionality, only a strong visual component for use
 <li><b>Conway's Game Of Life</b><ul><li>GOL done in lua. Runs on an in-game screen.</li></ul></li>
 <li><b>Drawing Board 1.1</b><ul><li>Draw images by hand on a screen using custom colors and a minimalistic UI.</li></ul></li>
 <li><b>DU Image To Lua-string Converter</b><ul><li>Convert images to string which can be loaded and displayed by a single Screen element.</li></ul></li>
-<li><b>DU OpenMarket Advertisement</b><ul><li>An advertisement billboard for DU OpenMarket, my Market API for DU. Cycles between 3 states.</li></ul></li>
+<li><b>DU OpenMarket Advertisement</b><ul><li>An advertisement billboard for DU OpenMarket, my Market API for DU. Cycles between 4 states.</li></ul></li>
+<li><b>Infinite Image Slideshow</b><ul><li>Displays a slideshow of images, with support for an infinite number of them. Smooth scrolling transitions.</li></ul></li>
 <li><b>Matrix Code Rain</b><ul><li>Creates a "Matrix"-like scrolling backdrop, using a non-Cyrillic character set.</li></ul></li>
 <li><b>Terminal Stream</b><ul><li>Emulates an active terminal, scrolling text with editable technical jargon and color.</li></ul></li>
-<li><b>Test Screen</b><ul><li>Renders every character above its ascii code, including "unavailable" chars. General screen debug.</li></ul></li>
+<li><b>Test Screen</b><ul><li>General screen debug, built with basic re-usable example functions to serve most UI purposes.</li></ul></li>
 </ul>
