@@ -1,0 +1,18 @@
+if not init then
+    frame = 1
+    init = true
+end
+local movieimage = loadImage("assets.prod.novaquark.com/66839/9fb73abf-9898-439c-94fa-2cb6e63782ae.png")
+local layer1 = createLayer()
+local layer2 = createLayer()
+local font1 = loadFont("Play",20)
+local rx,ry = getResolution()
+if frame == 255 then
+    frame = 1
+else
+    frame = frame + 1
+end
+local subxpos = math.fmod(frame,5)
+local subypos = math.floor(frame / 5)
+addImageSub(layer1, movieimage, 0, 0, rx, ry, 0 + (200*subxpos), 0 + (112  * subypos), 200, 112)
+requestAnimationFrame(1)

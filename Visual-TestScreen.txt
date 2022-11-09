@@ -2,11 +2,13 @@
 if not init then
     tabindex = 1
     textbuffer = {}
+    keyboardshift = 0
     for ix=1,2 do
         textbuffer[ix] = ""
     end
     bufferselect = 1
     a = 2 * math.pi / 6
+    b = 2 * math.pi / 5
     r = 100
     slidervalue = 100
     fontselect = 1
@@ -15,6 +17,7 @@ if not init then
 end
 
 fontS = loadFont("Play", 15)
+fontV = loadFont("Play", 30)
 fonttab = {}
 fontnames = {"FiraMono", "FiraMono-Bold", "Montserrat", "Montserrat-Light", "Montserrat-Bold", "Play", "Play-Bold", "RefrigeratorDeluxe", "RefrigeratorDeluxe-Light", "RobotoCondensed", "RobotoMono", "RobotoMono-Bold"}
 for ia=fontselect,fontselect+4 do
@@ -22,6 +25,8 @@ for ia=fontselect,fontselect+4 do
 end
 layer1 = createLayer()
 layer2 = createLayer()
+layer3 = createLayer()
+layer4 = createLayer()
 rx, ry = getResolution()
 cx, cy = getCursor()
 cd = getCursorDown()
@@ -93,22 +98,11 @@ function DrawScreenInfo()
     rcmax = getRenderCostMax()
     setNextFillColor(layer1,0,0.5,1,1)
     addText(layer1, fontS, "Render Cost: " .. rc .. " / " .. rcmax, 80, 300)
-    
-    setNextFillColor(layer1,0,1,1,1)
-    addText(layer1, fontS, "Available Fonts: " .. fontcount, 80, 470)
-    local prevfontselect = fontselect
-    local output = function() if fontselect > 1 then fontselect = fontselect - 1 end end
-    DrawButton(layer1, 40, 450, 35, 35, "<", output)
-    local output = function() if fontselect < fontselectmax - 4 then fontselect = fontselect + 1 end end
-    DrawButton(layer1, 300, 450, 35, 35, ">", output)
-    for aa=prevfontselect,prevfontselect+4 do
-        setNextFillColor(layer1,0,1,1,1)
-        addText(layer1, fonttab[aa], fontnames[aa], 100, ((aa - prevfontselect)*15)+495)
-    end
 end
 
-function DrawOSK()
+function DrawOSKFull()
     --generate on-screen keyboard
+    --Full keyboard, all buttons visible all the time, no shift.
     local keyinc = 0
     for af=33,127 do
         if af == 127 then
@@ -177,12 +171,44 @@ function DrawSlider(drawlayer, btnx, btny, btnw, btnh, value)
     addBoxRounded(drawlayer, btnx+((value*0.01)*btnw), btny-(btnh*0.5), 15, btnh, 5)
 end
 
-function addHexagon(inlayer,hexx,hexy,rad,strkwdth,sr,sg,sb,shwdth,shr,shg,shb,alpha)
+function addHexagon1(inlayer,hexx,hexy,rad,strkwdth,sr,sg,sb,shwdth,shr,shg,shb,alpha)
+    for ia=0,5 do
+        setNextShadow(inlayer,shwdth,shr,shg,shb,alpha)
+        setNextStrokeWidth(inlayer,strkwdth)
+        setNextStrokeColor(inlayer,sr,sg,sb,alpha)
+        addLine(inlayer,hexx + (r + rad) * math.sin(a * ia), hexy + (r + rad) * math.cos(a * ia),hexx + (r + rad) * math.sin(a * (ia+1)), hexy + (r + rad) * math.cos(a * (ia+1)))
+    end
+end
+
+function addHexagon2(inlayer,hexx,hexy,rad,strkwdth,sr,sg,sb,shwdth,shr,shg,shb,alpha)
     for ia=0,5 do
         setNextShadow(inlayer,shwdth,shr,shg,shb,alpha)
         setNextStrokeWidth(inlayer,strkwdth)
         setNextStrokeColor(inlayer,sr,sg,sb,alpha)
         addLine(inlayer,hexx + (r + rad) * math.cos(a * ia), hexy + (r + rad) * math.sin(a * ia),hexx + (r + rad) * math.cos(a * (ia+1)), hexy + (r + rad) * math.sin(a * (ia+1)))
+    end
+end
+
+function addPentagon(inlayer,hexx,hexy,rad,strkwdth,sr,sg,sb,shwdth,shr,shg,shb,alpha)
+    for ia=0,4 do
+        setNextShadow(inlayer,shwdth,shr,shg,shb,alpha)
+        setNextStrokeWidth(inlayer,strkwdth)
+        setNextStrokeColor(inlayer,sr,sg,sb,alpha)
+        addLine(inlayer,hexx + (r + rad) * math.sin(b * ia), hexy + (r + rad) * math.cos(b * ia),hexx + (r + rad) * math.sin(b * (ia+1)), hexy + (r + rad) * math.cos(b * (ia+1)))
+    end
+end
+
+function addCustomText(drawlayer, imagehandle, textstring, xpos, ypos, size, colorr, colorg, colorb, colora)
+    destructstring = textstring
+    for ix=1,#textstring do
+        nextletter = string.sub(destructstring,1,1)
+        destructstring = string.sub(destructstring,2,string.len(destructstring))
+        nextascii = string.byte(nextletter) - 33
+        
+        local subxpos = math.fmod(nextascii,32)
+        local subypos = math.floor(nextascii / 32)
+        setNextFillColor(drawlayer, colorr, colorg, colorb, colora)
+        addImageSub(drawlayer, imagehandle, xpos+(ix * (size/2+2)), ypos, size, size, 0 + (68*subxpos), 0 + (68  * subypos), 68, 68)
     end
 end
 
@@ -192,7 +218,7 @@ addBox(layer1,0,50,rx,ry - 50)
 local output = function() tabindex = 1 end
 DrawButton(layer1,10,10,100,30,"Charset",output)
 local output = function() tabindex = 2 end
-DrawButton(layer1,130,10,100,30,"Screen",output)
+DrawButton(layer1,130,10,100,30,"Screen Data",output)
 local output = function() tabindex = 3 end
 DrawButton(layer1,250,10,100,30,"Inputs",output)
 local output = function() tabindex = 4 end
@@ -200,9 +226,8 @@ DrawButton(layer1,370,10,100,30,"Bars / Meters",output)
 local output = function() tabindex = 5 end
 DrawButton(layer1,490,10,100,30,"Shapes",output)
 local output = function() tabindex = 6 end
-DrawButton(layer1,610,10,100,30,"Images",output)
+DrawButton(layer1,610,10,100,30,"Text",output)
 
-    assetimagehandle = loadImage("assets.prod.novaquark.com/66839/49273f08-d4ab-4e33-a5a1-c105b051b587.png")
 if tabindex == 1 then
     DrawCharacterSet()
 end
@@ -234,24 +259,39 @@ if tabindex == 3 then
     output = function() bufferselect = 2 end
     DrawButton(layer1, 320, 210, 80, 15, "Buffer 2", output)
     
-    DrawOSK()
+    DrawOSKFull()
 end
 if tabindex == 4 then
     drawCircularProgressBar(layer1,200,200,50,slidervalue,100)
     DrawSlider(layer1,400,200,150,50,slidervalue)
 end
 if tabindex == 5 then
-    addHexagon(layer1,200,200,25,5,1,1,1,20,0,0,0,1)
+    addHexagon1(layer1,200,200,25,5,1,1,1,20,0,0,0,1)
+    addHexagon2(layer1,200,200,25,5,1,1,1,20,0,0,0,1)
+    addPentagon(layer1,200,450,25,5,1,1,1,20,0,0,0,1)
 end
 if tabindex == 6 then
-    for it=1,15 do
-        setNextFillColor(layer2, 1,1,1,1)
-        addImageSub(layer2,assetimagehandle,50*it,355,77.5,77.5,0,0,155,155)
+    local customfontimage = loadImage("assets.prod.novaquark.com/66839/e294a1f0-11ae-4fa1-a5f8-aeb02288eb24.png")
+    addCustomText(layer2, customfontimage, "This is a custom font, rendered from an image file.", 150, 100, 22, 0,0.25,0.75,1)
+    
+    setNextFillColor(layer1,0,1,1,1)
+    addText(layer1, fontS, "Available Fonts: " .. fontcount, 80, 495)
+    local prevfontselect = fontselect
+    local output = function() if fontselect > 1 then fontselect = fontselect - 1 end end
+    DrawButton(layer1, 40, 475, 35, 35, "<", output)
+    local output = function() if fontselect < fontselectmax - 4 then fontselect = fontselect + 1 end end
+    DrawButton(layer1, 300, 475, 35, 35, ">", output)
+    for aa=prevfontselect,prevfontselect+4 do
+        setNextFillColor(layer1,0,1,1,1)
+        addText(layer1, fonttab[aa], fontnames[aa], 100, ((aa - prevfontselect)*15)+515)
     end
     
-    rc = getRenderCost()
-    rcmax = getRenderCostMax()
-    setNextFillColor(layer1,0,0.5,1,1)
-    addText(layer1, fontS, "Render Cost: " .. rc .. " / " .. rcmax, 80, 300)
+    addText(layer3,fontV,"Vertical Text Example 1",10,10)
+    setLayerRotation(layer3,(6.285*0.75))
+    setLayerTranslation(layer3,25,400)
+    
+    addText(layer4,fontV,"Vertical Text Example 2",10,10)
+    setLayerRotation(layer4,(6.285*0.25))
+    setLayerTranslation(layer4,75,100)
 end
 requestAnimationFrame(1)

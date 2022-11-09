@@ -5,9 +5,9 @@ function randomString(length)
 end
 
 if not init then
-    l3fontsize = 20
+    l3fontsize = 40
     l2fontsize = 30
-    l1fontsize = 40
+    l1fontsize = 20
     l3xoffset = -20
     l3yoffset = 0
     l2xoffset = -20
@@ -244,7 +244,7 @@ function DrawAllTextL1()
         for by=1,cy1 do
             for bz=1,2 do
                 if mem1[bx][by][2] == 1 then
-                    setNextFillColor(layer1, 0, 1, 0, 0.66)
+                    setNextFillColor(layer1, 0, 0.25, 0, 0.33)
                     addText(layer1, fontL, mem1[bx][by][1], (l1fontsize*bx)+l1xoffset, (l1fontsize*by)+l1yoffset)
                 end
             end
@@ -270,7 +270,7 @@ function DrawAllTextL3()
         for hy=1,cy3 do
             for hz=1,2 do
                 if mem3[hx][hy][2] == 1 then
-                    setNextFillColor(layer3, 0, 0.25, 0, 0.33)
+                    setNextFillColor(layer3, 0, 1, 0, 0.66)
                     addText(layer3, fontS, mem3[hx][hy][1], (l3fontsize*hx)+l3xoffset, (l3fontsize*hy)+l3yoffset)
                 end
             end
