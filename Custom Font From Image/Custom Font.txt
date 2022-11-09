@@ -1,0 +1,23 @@
+local customfontimage = loadImage("assets.prod.novaquark.com/66839/e294a1f0-11ae-4fa1-a5f8-aeb02288eb24.png")
+local layer1 = createLayer()
+local layer2 = createLayer()
+local font1 = loadFont("Play",20)
+local rx,ry = getResolution()
+
+setBackgroundColor(0.5,0.5,0.5)
+
+function addCustomText(drawlayer, imagehandle, textstring, xpos, ypos, size, colorr, colorg, colorb, colora)
+    destructstring = textstring
+    for ix=1,#textstring do
+        nextletter = string.sub(destructstring,1,1)
+        destructstring = string.sub(destructstring,2,string.len(destructstring))
+        nextascii = string.byte(nextletter) - 33
+        
+        local subxpos = math.fmod(nextascii,32)
+        local subypos = math.floor(nextascii / 32)
+        setNextFillColor(drawlayer, colorr, colorg, colorb, colora)
+        addImageSub(drawlayer, imagehandle, xpos+(ix * (size/2)), ypos, size, size, 0 + (68*subxpos), 0 + (68  * subypos), 68, 68)
+    end
+end
+
+addCustomText(layer1, customfontimage, "This is a custom font, rendered from an image file.", 50, 150, 28, 0,0,0,1)

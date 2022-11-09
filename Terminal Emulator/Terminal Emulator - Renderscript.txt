@@ -1,0 +1,72 @@
+if not init then
+	local textr, textg, textb = 1, 0.5, 0
+    strings1 = {}
+    strings1[0] = "[  OK  ][HID] Starting USB 7.0 Interface"
+    strings1[1] = "[  OK  ] USB 7-0: New Device Found, VendorID=Novark, ProductID=AeroSuitGeneralPnP"
+    strings1[2] = "[  OK  ] USB 7-0: New USB Device Strings: MFR=Novark, Product=AS10994, Serial=8971205532"
+    strings1[3] = "[  OK  ][SYS] Freeing initrd Memory: 187429GB freed"
+    strings1[4] = "[  OK  ][RTC_CMOS] Setting System Clock, synchronizing with Novark Arkship"
+    strings1[5] = "[  OK  ] BIOS EDD Facility V6.26 2782-Jan-14, 1 Device Found"
+    strings1[6] = "[  OK  ] Write-Protecting Kernel Binaries: 31648GB"
+    strings1[7] = "[  OK  ][ACPI] Video Device [GFX0] (Multi-head:yes, ROM:no, POST:no)"
+    strings1[8] = "[  OK  ][INPUT] Video Bus as /devices/LNXSYSTM:00/LNXSYSBUS:00/PNP0C35:00/LNXVIDEO:00/input/"
+    strings1[9] = "[  OK  ][USBCORE] Registered New Interface Driver USBHID on Port 2142"
+    strings1[10] = "[  OK  ][HID] Generic Input, hidRaw0: USB HID v7.1 Neuralink [Novark]"
+    strings1[11] = "[  ERROR  ][SYS] Sys_core time error of .002 picoseconds. Correcting system clock... "
+    strings1[12] = "[  OK  ][SYS] Integrity Check: All system elements reporting nominal."
+    strings1[13] = "[  ERROR  ][SYS] System Warning: PointerException.Null thrown at 0xFFAE0095"
+    strings1[14] = "[  OK  ][HID] Parsing filesystem for updates; No new volumes found."
+    strings1[15] = "[  OK  ][SYS] Remounting root filesystem in read-write mode: OK"
+    strings1[16] = "[  OK  ][HID] Creating qdisk volume: (Dynamic Size: 4096GB) on shared memory... Done."
+    strings1[17] = "[  OK  ][HID] Rechecking unionfs and symlinks on qdisk... Done."
+    strings1[18] = "[  OK  ][HID] Total qdisk volume entropy exceeded calculated parity entropy."
+    strings1[19] = "[  ERROR  ][HID] Qbit error in system qdisk volume AD36C2B92E was corrected automatically."
+    strings1[20] = "[  OK  ][TEMP] Cryostate readings updated. Qprocessor temperatures nominal."
+    strings1[21] = "[  ERROR  ][TEMP] Qprocessor temperatures exceeding 65% maximum. System venting..."
+end
+    
+function randomString(length)
+    if not length or length <= 0 then return '' end
+    local rand1 = math.random(21)
+    return strings1[rand1]
+end
+
+function randomInt(max)
+    if not max or max <= 0 then return '' end
+    local rand1 = math.random(max)
+    return rand1
+end
+
+if not init then
+    l1fontsize = 20
+    l1xoffset = -20
+    l1yoffset = 0
+    rx, ry = getResolution()
+    cx1, cy1 = rx, ry/l1fontsize
+    mem1 = {}
+    for iy=1,cy1 do
+        mem1[iy] = randomString(1)
+    end
+    init = true
+end
+
+fontL = loadFont("Play", l1fontsize)
+layer1 = createLayer()
+
+function DrawAllTextL1()
+    for by=1,cy1 do
+        setNextFillColor(layer1, textr, textg, textb, 1)
+        addText(layer1, fontL, mem1[by], l1fontsize+l1xoffset, (l1fontsize*by)+l1yoffset)
+    end
+end
+
+function ShiftLines()
+    for sy=1,cy1 - 1 do
+        mem1[sy] = mem1[sy+1]
+    end
+    mem1[math.floor(cy1)] = strings1[math.random(21)]
+end
+
+DrawAllTextL1()
+ShiftLines()
+requestAnimationFrame(randomInt(20))

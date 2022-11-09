@@ -1,0 +1,186 @@
+if not init then
+    tick = 0
+    tickmax = 100
+    hexx = 515
+    hexy = 175
+    a = 2 * math.pi / 6
+    r = 100
+    display = 1
+    displaymax = 4
+    displaytick = 0
+    displaytickmax = 175
+    init = true
+end
+local layer = createLayer()
+local layer2 = createLayer()
+local layer3 = createLayer()
+local layer4 = createLayer()
+local rx, ry = getResolution()
+local fontL = loadFont("Play", 80)
+local fontB = loadFont("Play", 70)
+local fontB2 = loadFont("Play", 71)
+local fontB3 = loadFont("Play", 72)
+local fontM = loadFont("Play", 50)
+local fontS = loadFont("Play", 40)
+local imagehandle = loadImage("assets.prod.novaquark.com/66839/b249f117-4120-472e-8c12-d84c04c28775.png")
+local imagehandle2 = loadImage("assets.prod.novaquark.com/66839/8452f802-cb36-40ec-9d26-f5530a82ac1c.png")
+
+if display == 1 then
+    
+    addImage(layer, imagehandle, 0, 0, rx, ry)
+    
+    --setNextFillColor(layer, 1, 0, 0, 1)
+    --addText(layer, fontS, "In Development", rx*0.02, ry*0.08)
+    --setNextFillColor(layer, 1, 0, 0, 1)
+    --addText(layer, fontS, "@EpicPhail#3860", rx*0.02, ry*0.16)
+    
+    setNextShadow(layer3,15,0,0,0,1)
+    setNextFillColor(layer3, 1, 1, 1, 1)
+    addText(layer3, fontB, "DUOpenMarket", rx*0.265, ry*0.55)
+    
+    setNextShadow(layer3,15,0,0,0,1)
+    setNextFillColor(layer3, 0.65, 0.65, 0.65, 1)
+    addText(layer3, fontM, "Open Source Third-Party Market API", rx*0.11, ry*0.675)
+    
+    setNextFillColor(layer3, 0.65, 0.65, 0.65, 1)
+    setNextShadow(layer3,15,0,0,0,1)
+    addText(layer3, fontM, "with Discord-based login", rx*0.235, ry*0.74)
+    
+    setNextShadow(layer3,15,0,0,0,1)
+    setNextFillColor(layer3, 2, 2, 0, 1)
+    addText(layer3, fontL, "https://duopenmarket.com", rx*0.025, ry*0.9)
+    
+    
+    setNextShadow(layer4,15,0,0,0,1)
+    setNextFillColor(layer4, 1, 0.85, 0, 1)
+    addText(layer4, fontM, "Version 1.61.1", rx*0.04, ry*0.07)
+    
+    setNextShadow(layer4,15,0,0,0,1)
+    setNextFillColor(layer4, 1, 0.85, 0, 1)
+    addText(layer4, fontM, "Now Available!", rx*0.04, ry*0.17)
+    
+    setLayerOrigin(layer4,rx/2,ry/2)
+    setLayerRotation(layer4,(math.pi*2)*-0.1)
+    setLayerTranslation(layer4,50,-150)
+
+    if tick > tickmax then
+        tick = 0
+    end
+    if tick > (tickmax / 2) then
+        alpha = 1-(tick/tickmax)
+    else
+        alpha = (tick/tickmax)
+    end
+    for ia=0,5 do
+        setNextShadow(layer3,20,1,0.85,0,alpha)
+        setNextStrokeWidth(layer3,15)
+        setNextStrokeColor(layer3,1,0.85,0,alpha)
+        addLine(layer3,hexx + (r + tick) * math.cos(a * ia), hexy + (r + tick) * math.sin(a * ia),hexx + (r + tick) * math.cos(a * (ia+1)), hexy + (r + tick) * math.sin(a * (ia+1)))
+    end
+    tick = tick + 1
+end
+
+if display == 2 then
+    addImage(layer, imagehandle, 0, 0, rx, ry)
+    addImage(layer2, imagehandle2, -50, -75, rx, ry)
+    
+    setNextShadow(layer3,15,0,0,0,1)
+    setNextFillColor(layer3, 0.85, 0.85, 0.15, 1)
+    addText(layer3, fontS, "Tired of spreadsheets?", rx*0.05, ry*0.1)
+    
+    setNextShadow(layer3,15,0,0,0,1)
+    setNextFillColor(layer3, 0.85, 0.85, 0.15, 1)
+    addText(layer3, fontS, "Try graphs instead!", rx*0.05, ry*0.175)
+    
+    
+    setNextShadow(layer3,15,0,0,0,1)
+    setNextFillColor(layer3, 0.85, 0.85, 0.15, 1)
+    addText(layer3, fontS, "Automatically generated historical statistics", rx*0.05, ry*0.7)
+    
+    
+    setNextShadow(layer3,15,0,0,0,1)
+    setNextFillColor(layer3, 2, 2, 0, 1)
+    addText(layer3, fontL, "https://duopenmarket.com", rx*0.025, ry*0.9)
+end
+
+if display == 3 then
+    
+    addImage(layer, imagehandle, 0, 0, rx, ry)
+    
+    setNextShadow(layer3,15,0,0,0,1)
+    setNextFillColor(layer3, 0.75, 0.75, 0.75, 1)
+    addText(layer3, fontB, "Current Features:", rx*0.025, ry*0.1)
+    
+    setNextShadow(layer3,15,0,0,0,1)
+    setNextFillColor(layer3, 0.45, 0.85, 0.25, 1)
+    addText(layer3, fontM, "Open-Source, with Secure Auth", rx*0.05, ry*0.2)
+    
+    setNextShadow(layer3,15,0,0,0,1)
+    setNextFillColor(layer3, 0.45, 0.85, 0.25, 1)
+    addText(layer3, fontM, "Advanced Searching, save search terms", rx*0.05, ry*0.3)
+    
+    setNextShadow(layer3,15,0,0,0,1)
+    setNextFillColor(layer3, 0.45, 0.85, 0.25, 1)
+    addText(layer3, fontM, "Small client, low resource use", rx*0.05, ry*0.4)
+    
+    setNextShadow(layer3,15,0,0,0,1)
+    setNextFillColor(layer3, 0.45, 0.85, 0.25, 1)
+    addText(layer3, fontM, "Sort by price, market, quantity, etc", rx*0.05, ry*0.5)
+    
+    setNextShadow(layer3,15,0,0,0,1)
+    setNextFillColor(layer3, 0.45, 0.85, 0.25, 1)
+    addText(layer3, fontM, "History trend Graphing and Economy stats", rx*0.05, ry*0.6)
+    
+    setNextShadow(layer3,15,0,0,0,1)
+    setNextFillColor(layer3, 2, 2, 0, 1)
+    addText(layer3, fontL, "https://duopenmarket.com", rx*0.025, ry*0.9)
+    
+end
+
+if display == 4 then
+    
+    addImage(layer, imagehandle, 0, 0, rx, ry)
+    
+    setNextShadow(layer3,15,0,0,0,1)
+    setNextFillColor(layer3, 0.75, 0.75, 0.75, 1)
+    addText(layer3, fontB, "Features In Development:", rx*0.025, ry*0.1)
+    
+    setNextShadow(layer3,15,0,0,0,1)
+    setNextFillColor(layer3, 0.85, 0.45, 0.25, 1)
+    addText(layer3, fontM, "Profit and Margin calculators for industry", rx*0.05, ry*0.2)
+    
+    setNextShadow(layer3,15,0,0,0,1)
+    setNextFillColor(layer3, 0.85, 0.45, 0.25, 1)
+    addText(layer3, fontM, "Cost/value calculator for constructs", rx*0.05, ry*0.3)
+    
+    setNextShadow(layer3,15,0,0,0,1)
+    setNextFillColor(layer3, 0.85, 0.45, 0.25, 1)
+    addText(layer3, fontM, "Construct / Blueprint / Script Market", rx*0.05, ry*0.4)
+    
+    setNextShadow(layer3,15,0,0,0,1)
+    setNextFillColor(layer3, 0.85, 0.45, 0.25, 1)
+    addText(layer3, fontM, "Public anti-scam Reputation directory", rx*0.05, ry*0.5)
+    
+    setNextShadow(layer3,15,0,0,0,1)
+    setNextFillColor(layer3, 0.85, 0.45, 0.25, 1)
+    addText(layer3, fontM, "...And more!", rx*0.05, ry*0.7)
+    
+    setNextShadow(layer3,15,0,0,0,1)
+    setNextFillColor(layer3, 2, 2, 0, 1)
+    addText(layer3, fontL, "https://duopenmarket.com", rx*0.025, ry*0.9)
+    
+end
+
+
+if displaytick < displaytickmax then
+    displaytick = displaytick + 1
+else
+    if display == displaymax then
+        display = 1
+    else
+        display = display + 1
+    end
+    displaytick = 0
+end
+
+requestAnimationFrame(1)
