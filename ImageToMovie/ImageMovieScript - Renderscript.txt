@@ -1,18 +1,131 @@
 if not init then
     frame = 1
+    movieframes = {}
+    for ix=1,7 do
+        movieframes[ix] = ""
+    end
+    movieframes[1] = "assets.prod.novaquark.com/126901/ee9c505a-b794-435a-b01c-5937716864a3.jpg"
+    movieframes[2] = "assets.prod.novaquark.com/126901/0ab8ecc2-079e-47c6-abfd-e7cab7c78394.jpg"
+    movieframes[3] = "assets.prod.novaquark.com/126901/63ebb2ea-864c-403b-8970-68c11f418156.jpg"
+    movieframes[4] = "assets.prod.novaquark.com/126901/39ad11b6-09d2-47f5-ae7e-5041df127964.jpg"
+    movieframes[5] = "assets.prod.novaquark.com/126901/f03b226f-0654-4908-be23-be28d9399d3f.jpg"
+    movieframes[6] = "assets.prod.novaquark.com/126901/ebc95a7a-92a4-4cbf-8bb0-5c46c07ba44b.jpg"
+    movieframes[7] = "assets.prod.novaquark.com/126901/07c25db0-9771-42a8-8664-9e8e9d2aaad8.jpg"
+    
+    movieimages = {}
+    for ix=1,5 do
+        movieimages[ix] = 0
+    end
+    movieindex = 1
+    subframeresx = 200
+    subframeresy = 112
+    subframecountx = 5
+    subframecounty = 44
+    scrollvalue = 0
+    play = 0
+    framerate = 1
     init = true
 end
-local movieimage = loadImage("assets.prod.novaquark.com/66839/9fb73abf-9898-439c-94fa-2cb6e63782ae.png")
-local layer1 = createLayer()
-local layer2 = createLayer()
+local layer1 = createLayer() --image
+local layer2 = createLayer() --controls
 local font1 = loadFont("Play",20)
 local rx,ry = getResolution()
-if frame == 255 then
-    frame = 1
-else
-    frame = frame + 1
+local cx,cy = getCursor()
+local cd = getCursorDown()
+local cp = getCursorPressed()
+local cr = getCursorReleased()
+
+function DrawSlider(drawlayer, btnx, btny, btnw, btnh, value, maxvalue, alpha)
+    if cx > btnx and cx < (btnx+btnw) then
+        if cy > (btny-(btnh*0.5)) and cy < (btny+(btnh*0.5)) then
+            if cd == true then
+                --clicked
+                alpha = 1
+                scrollvalue = ((cx - btnx)/btnw)*100
+                local tempseek1 = (scrollvalue * 0.01)*(subframecountx * subframecounty)*7
+                scrollvalue = math.floor(tempseek1)
+                movieindex = 1
+                if scrollvalue > (subframecountx * subframecounty) and scrollvalue < (subframecountx * subframecounty)*7 then
+                    while scrollvalue >= (subframecountx * subframecounty) do
+                        scrollvalue = scrollvalue - (subframecountx * subframecounty)
+                        movieindex = movieindex + 1
+                    end
+                else
+                    
+                end
+                frame = scrollvalue
+            else
+                --hovered
+                alpha = 1
+            end
+        end
+    end
+    setNextShadow(drawlayer,25,0,0,0,1)
+    setNextFillColor(drawlayer, 0.35, 0.35, 0.35, alpha)
+    setNextStrokeWidth(drawlayer, 0)
+    addBoxRounded(drawlayer, btnx, btny-(btnh*0.25), btnw, btnh-(btnh*0.5), 5)
+    
+    setNextFillColor(drawlayer, 0.65, 0.15, 0.15, alpha)
+    setNextStrokeWidth(drawlayer, 0)
+    addBoxRounded(drawlayer, btnx, btny-(btnh*0.25), ((value/maxvalue)*btnw), btnh-(btnh*0.5), 5)
+    
+    setNextShadow(drawlayer,10,0,0,0,1)
+    setNextFillColor(drawlayer, 1, 1, 1, alpha)
+    addBoxRounded(drawlayer, btnx+((value/maxvalue)*btnw)-7.5, btny-(btnh*0.5), 15, btnh, 5)
 end
+
+function DrawPausedIndicator()
+    setNextShadow(layer2,50,0,0,0,1)
+    setNextStrokeWidth(layer2, 0)
+    setNextFillColor(layer2, 1, 1, 1, 0.75)
+    addBox(layer2, 375, 150, 100, 300)
+    
+    setNextShadow(layer2,50,0,0,0,1)
+    setNextStrokeWidth(layer2, 0)
+    setNextFillColor(layer2, 1, 1, 1, 0.75)
+    addBox(layer2, 525, 150, 100, 300)
+end
+
+if movieindex > 1 then
+    movieimages[1] = loadImage(movieframes[movieindex - 1])
+end
+movieimages[2] = loadImage(movieframes[movieindex])
+if movieindex < 7 then
+    movieimages[3] = loadImage(movieframes[movieindex + 1])
+end
+
+if play == 1 then
+    if frame == (subframecountx * subframecounty) then
+        frame = 1
+        if movieindex < 7 then
+            movieindex = movieindex + 1
+            movieimages[2] = movieimages[3]
+        else
+            play = 0
+        end
+    else
+        frame = frame + 1
+    end
+    DrawSlider(layer2, 50, 575, 925, 50, (subframecountx * subframecounty)*(movieindex - 1)+frame, (subframecountx * subframecounty)*7, 0.1)
+else
+    --draw hud
+    DrawSlider(layer2, 50, 575, 925, 50, (subframecountx * subframecounty)*(movieindex - 1)+frame, (subframecountx * subframecounty)*7, 1)
+    DrawPausedIndicator()
+end
+
+if cr == true then
+    if scrollvalue ~= 0 then
+        scrollvalue = 0
+    else
+        if play == 1 then
+            play = 0
+        else
+            play = 1
+        end
+    end
+end
+
 local subxpos = math.fmod(frame,5)
 local subypos = math.floor(frame / 5)
-addImageSub(layer1, movieimage, 0, 0, rx, ry, 0 + (200*subxpos), 0 + (112  * subypos), 200, 112)
-requestAnimationFrame(1)
+addImageSub(layer1, movieimages[2], 0, 0, rx, ry, 0 + (subframeresx*subxpos), 0 + (subframeresy * subypos), subframeresx, subframeresy)
+requestAnimationFrame(framerate)
