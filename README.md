@@ -15,7 +15,7 @@ Nothing super complicated here, but perhaps you find some of these scripts usefu
 <li><b>DU Image To Lua-string Converter</b><ul><li>Convert images to string which can be loaded and displayed by a single Screen element.</li></ul></li>
 <li><b>DU OpenMarket Advertisement</b><ul><li>An advertisement billboard for DU OpenMarket, my Market API for DU. Cycles between 4 states.</li></ul></li>
 <li><b>Infinite Image Slideshow</b><ul><li>Displays a slideshow of images, with support for an infinite number of them. Smooth scrolling transitions and configurable parameters.</li></ul></li>
-<li><b>Image To Movie</b><ul><li>Uses sub-regions of multiple large images to display a quick frame sequence, which looks like an animation or movie clip. Adjustable parameters, supports a theoretically infinite number of images.</li></ul></li>
+<li><b>Image To Movie</b><ul><li>Uses sub-regions of multiple large images to display a quick frame sequence, which looks like an animation or movie clip. Adjustable parameters, supports a theoretically infinite number of images. On-screen pause and seek control using mouse.</li></ul></li>
 <li><b>Item ID Scraper</b><ul><li>Runs a loop which repeatedly checks the game server for a given item ID, and if the item exists, pulls its data and appends it to a screen's renderscript for copying.</li></ul></li>
 <li><b>Lighting RGB Control</b><ul><li>Simple screen UI with 3 sliders which can interact with a PB to change the color of light elements.</li></ul></li>
 <li><b>Matrix Code Rain</b><ul><li>Creates a "Matrix"-like scrolling backdrop, using a non-Cyrillic character set.</li></ul></li>
