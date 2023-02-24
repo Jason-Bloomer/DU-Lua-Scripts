@@ -19,10 +19,7 @@ end
 fontS = loadFont("Play", 15)
 fontV = loadFont("Play", 30)
 fonttab = {}
-fontnames = {"FiraMono", "FiraMono-Bold", "Montserrat", "Montserrat-Light", "Montserrat-Bold", "Play", "Play-Bold", "RefrigeratorDeluxe", "RefrigeratorDeluxe-Light", "RobotoCondensed", "RobotoMono", "RobotoMono-Bold"}
-for ia=fontselect,fontselect+4 do
-    fonttab[ia] = loadFont(fontnames[ia], 15)
-end
+fontnames = {}
 layer1 = createLayer()
 layer2 = createLayer()
 layer3 = createLayer()
@@ -35,6 +32,12 @@ cr = getCursorReleased()
 fontcount = getAvailableFontCount()
 line = 1
 charset = ""
+for ia=1,fontcount do
+    fontnames[ia] = getAvailableFontName(ia)
+end
+for ia=fontselect,fontselect+4 do
+    fonttab[ia] = loadFont(fontnames[ia], 15)
+end
 
 function DrawCharacterSet()
     for ix=0,255 do
@@ -279,7 +282,7 @@ if tabindex == 6 then
     local prevfontselect = fontselect
     local output = function() if fontselect > 1 then fontselect = fontselect - 1 end end
     DrawButton(layer1, 40, 475, 35, 35, "<", output)
-    local output = function() if fontselect < fontselectmax - 4 then fontselect = fontselect + 1 end end
+    local output = function() if fontselect < fontcount - 4 then fontselect = fontselect + 1 end end
     DrawButton(layer1, 300, 475, 35, 35, ">", output)
     for aa=prevfontselect,prevfontselect+4 do
         setNextFillColor(layer1,0,1,1,1)
