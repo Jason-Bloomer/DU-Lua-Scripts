@@ -17,5 +17,7 @@ There are two main components at play here:
 	<li>The Nuke Modules, whose job is to generate crippling lag</li>
 </ul>
 
+There are two Nuke Modules provided which cause lag by utilizing different methods. Load Recursion causes lag by recursively loading a string, which when loaded, causes itself to be loaded (into infinity). Timer Recursion causes lag by recursively creating timers and consuming exponential amounts of memory.
+
 For more detailed information about the link structure and order, see the included diagram in this directory.
 You can link up to ten (10) Nuke Modules to a single Main Module, though two is more than sufficient.
