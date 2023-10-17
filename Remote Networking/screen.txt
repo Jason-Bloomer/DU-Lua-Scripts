@@ -1,0 +1,272 @@
+if not init then
+    nearbysystems = {}
+    for ix=1,32 do
+        nearbysystems[ix] = 0
+    end
+    consoletext = {}
+    for ix=1,8 do
+        consoletext[ix] = ""
+    end
+    textbuffer = {}
+    for ix=1,2 do
+        textbuffer[ix] = ""
+    end
+    bufferselect = 1
+    pbactive = 0
+    lastinput = ""
+    isconnected = 0
+    systemmessage = ""
+    init = true
+end
+
+local layer1 = createLayer()
+local layer2 = createLayer()
+local font1 = loadFont("Play",15)
+local font2 = loadFont("Play",50)
+
+local rx, ry = getResolution()
+local cx,cy = getCursor()
+local cd = getCursorDown()
+local cp = getCursorPressed()
+local cr = getCursorReleased()
+
+setNextFillColor(layer1,0.1,0.1,0.1,1)
+addBox(layer1,0,0,rx,ry)
+
+function DrawButton(drawlayer, btnx, btny, btnw, btnh, btntxt, callfunc)
+    setNextFillColor(drawlayer, 0.35, 0.35, 0.35, 1)
+    if cx > btnx and cx < (btnx+btnw) then
+        if cy > btny and cy < (btny+btnh) then
+            if getCursorReleased() == true then
+                --clicked
+                setNextFillColor(drawlayer, 1, 0, 0, 1)
+                callfunc()
+            else
+                --hovered
+                setNextFillColor(drawlayer, 1, 1, 0, 1)
+            end
+        end
+    end
+    setNextStrokeColor(drawlayer, 0, 0.2, 0.6, 1)
+    setNextStrokeWidth(drawlayer, 5)
+    setNextShadow(drawlayer, 25, 0, 0, 0, 1)
+    addBoxRounded(drawlayer, btnx, btny, btnw, btnh, 5)
+    setNextFillColor(drawlayer, 0.15, 0.15, 1, 1)
+    local txtw, txty = getTextBounds(font1,btntxt)
+    addText(drawlayer, font1, btntxt, btnx + ((btnw - txtw)/2), btny + (btnh/2)+(txty/2))
+end
+
+function DrawDisabledButton(drawlayer, btnx, btny, btnw, btnh, btntxt)
+    setNextFillColor(drawlayer, 0.15, 0.15, 0.15, 1)
+    if cx > btnx and cx < (btnx+btnw) then
+        if cy > btny and cy < (btny+btnh) then
+            setNextFillColor(drawlayer, 0.35, 0.35, 0.35, 1)
+        end
+    end
+    setNextStrokeColor(drawlayer, 0.4, 0.4, 0.4, 1)
+    setNextStrokeWidth(drawlayer, 5)
+    setNextShadow(drawlayer, 25, 0, 0, 0, 1)
+    addBoxRounded(drawlayer, btnx, btny, btnw, btnh, 5)
+    setNextFillColor(drawlayer, 0.65, 0.65, 0.65, 1)
+    local txtw, txty = getTextBounds(font1,btntxt)
+    addText(drawlayer, font1, btntxt, btnx + ((btnw - txtw)/2), btny + (btnh/2)+(txty/2))
+end
+
+function DrawKeyButton(drawlayer, btnx, btny, btnw, btnh, btntxt, callfunc)
+    setNextFillColor(drawlayer, 0.35, 0.35, 0.35, 1)
+    if cx > btnx and cx < (btnx+btnw) then
+        if cy > btny and cy < (btny+btnh) then
+            if getCursorReleased() == true then
+                --clicked
+                setNextFillColor(drawlayer, 1, 0, 0, 1)
+                callfunc()
+            else
+                --hovered
+                setNextFillColor(drawlayer, 1, 1, 0, 1)
+            end
+        end
+    end
+    setNextStrokeColor(drawlayer, 0, 0, 0, 1)
+    setNextStrokeWidth(drawlayer, 0)
+    addBoxRounded(drawlayer, btnx, btny, btnw, btnh, 5)
+    setNextFillColor(drawlayer, 1, 1, 1, 1)
+    local txtw, txty = getTextBounds(font1,btntxt)
+    addText(drawlayer, font1, btntxt, btnx + ((btnw - txtw)/2), btny + (btnh/2)+(txty/2))
+end
+
+function addTextToConsole(text)
+    consoletext[8] = consoletext[7]
+    consoletext[7] = consoletext[6]
+    consoletext[6] = consoletext[5]
+    consoletext[5] = consoletext[4]
+    consoletext[4] = consoletext[3]
+    consoletext[3] = consoletext[2]
+    consoletext[2] = consoletext[1]
+    consoletext[1] = text
+end
+
+--get script input and substring it into the appropriate array
+local inputstr = getInput()
+if inputstr == nil or inputstr == "" then
+    --do nothing
+else
+    if inputstr == lastinput then
+        --do nothing
+    else
+        --addText(layer1, font1, getInput(), 100,500) --debug
+        if string.sub(inputstr,1,9) == "ACTIVATED" then
+            pbactive = 1
+        end
+        if string.sub(inputstr,1,11) == "DEACTIVATED" then
+            pbactive = 0
+        end
+        if string.sub(inputstr,1,10) == "LOCALCONN:" then
+            inputstr = string.sub(inputstr,11,string.len(inputstr))
+            local inputstr2 = ""
+            local index = 1
+            while(#inputstr > 0)
+            do
+                if string.find(inputstr,",") ~= nil then
+                    inputstr2 = string.sub(inputstr,1,string.find(inputstr,",") - 1)
+                    inputstr = string.sub(inputstr,string.find(inputstr,",")+1,string.len(inputstr))
+                    nearbysystems[index] = inputstr2
+                    index = index + 1
+                else
+                    inputstr2 = string.sub(inputstr,1,string.len(inputstr))
+                    nearbysystems[index] = inputstr2
+                    inputstr = ""
+                end
+            end
+        end
+        if string.sub(inputstr,1,10) == "CONNECTED:" then
+            isconnected = 1
+            systemmessage = "Connected successfully to "..string.sub(inputstr,11,string.len(inputstr))
+            addTextToConsole(systemmessage)
+        end
+        if string.sub(inputstr,1,8) == "MESSAGE:" then
+            systemmessage = string.sub(inputstr,9,string.len(inputstr))
+            addTextToConsole(systemmessage)
+        end
+        if string.sub(inputstr,1,8) == "DATARET:" then
+            local datain = string.sub(inputstr,9,string.len(inputstr))
+            local keyin = string.sub(datain,1,string.find(datain,":")-1)
+            local valin = string.sub(datain,string.find(datain,":")+1,string.len(datain))
+            addTextToConsole("Response: " .. datain)
+            if textbuffer[1] == keyin then
+                textbuffer[2] = valin
+            end
+        end
+    end
+end
+
+if pbactive == 1 then
+    if isconnected == 0 then
+        output = function() setOutput("SCANLOCAL") end
+        DrawButton(layer1, 25, 10, 120, 35, "SCAN LOCAL", output)
+
+        output = function() for ab=1,32 do nearbysystems[ab] = nil end setOutput("CLEARBUFFER") end
+        DrawButton(layer1, 185, 10, 65, 35, "CLEAR", output)
+
+        for aa=1,#nearbysystems do
+            if nearbysystems[aa] == nil or nearbysystems[aa] == "" or nearbysystems[aa] == 0 then
+                --do nothing
+            else
+                output = function() setOutput("CONNECT:"..nearbysystems[aa]) end
+                DrawButton(layer1, 50, 80*aa, 200, 35, nearbysystems[aa], output)
+                --addText(layer1, font1, nearbysystems[aa], 100,30*aa)
+            end
+        end
+    else
+        DrawDisabledButton(layer1, 25, 10, 120, 35, "SCAN LOCAL")
+
+        DrawDisabledButton(layer1, 185, 10, 65, 35, "CLEAR")
+
+        for aa=1,#nearbysystems do
+            if nearbysystems[aa] == nil or nearbysystems[aa] == "" or nearbysystems[aa] == 0 then
+                --do nothing
+            else
+                DrawDisabledButton(layer1, 50, 80*aa, 200, 35, nearbysystems[aa])
+                --addText(layer1, font1, nearbysystems[aa], 100,30*aa)
+            end
+        end
+
+        output = function() setOutput("TERMINATE") isconnected = 0 end
+        DrawButton(layer1, 285, 10, 95, 35, "TERMINATE", output)
+
+        output = function() setOutput("DATAREAD:"..textbuffer[1]) end
+        DrawButton(layer1, 485, 10, 125, 35, "DATA READ", output)
+
+        output = function() setOutput("DATAWRIT:"..textbuffer[1]..":"..textbuffer[2]) end
+        DrawButton(layer1, 485, 70, 125, 35, "DATA WRITE", output)
+        
+        output = function() setOutput("VERIFYKEYS") end
+        DrawButton(layer1, 885, 10, 125, 35, "Verify Keys", output)
+    end
+    
+
+    output = function() setOutput("READKEY:"..textbuffer[1]) end
+    DrawButton(layer1, 685, 10, 125, 35, "Read Key", output)
+
+    output = function() setOutput("SAVEKEY:"..textbuffer[1]..":"..textbuffer[2]) end
+    DrawButton(layer1, 685, 70, 125, 35, "Save Key", output)
+
+    output = function() setOutput("CLEARKEYS") end
+    DrawButton(layer1, 685, 130, 125, 35, "Clear Keys", output)
+
+    --system message console
+    setNextFillColor(layer1,0.05,0.05,0.05,1)
+    addBox(layer1,300,480,500,8*15)
+    for ad=1,8 do
+        setNextFillColor(layer1,1,1,1,1)
+        addText(layer1, font1, consoletext[9-ad], 300,480+(ad*15))
+    end
+    
+    --text buffer 1
+    if bufferselect == 1 then
+        setNextFillColor(layer1,0.05,0.05,0.15,1)
+    else
+        setNextFillColor(layer1,0.05,0.05,0.05,1)
+    end
+    addBox(layer1,420,180,400,20)
+    setNextFillColor(layer1,1,1,1,1)
+    addText(layer1,font1,textbuffer[1],420,195)
+    output = function() bufferselect = 1 end
+    DrawButton(layer1, 320, 180, 80, 15, "Buffer 1", output)
+    
+    --text buffer 2
+    if bufferselect == 2 then
+        setNextFillColor(layer1,0.05,0.05,0.15,1)
+    else
+        setNextFillColor(layer1,0.05,0.05,0.05,1)
+    end
+    addBox(layer1,420,210,400,20)
+    setNextFillColor(layer1,1,1,1,1)
+    addText(layer1,font1,textbuffer[2],420,225)
+    output = function() bufferselect = 2 end
+    DrawButton(layer1, 320, 210, 80, 15, "Buffer 2", output)
+    
+    --generate on-screen keyboard
+    local keyinc = 0
+    for af=33,127 do
+        if af == 127 then
+            --backspace
+            liney = math.floor(keyinc / 16)
+            linex = keyinc - (liney*16)
+            output = function() textbuffer[bufferselect] = string.sub(textbuffer[bufferselect],1,string.len(textbuffer[bufferselect])-1) end
+            DrawKeyButton(layer2, 320+(linex*35), 250+(liney*35), 60, 25, "BKSPC", output)
+            keyinc = keyinc + 1
+        else
+            liney = math.floor(keyinc / 16)
+            linex = keyinc - (liney*16)
+            output = function() textbuffer[bufferselect] = textbuffer[bufferselect] .. string.char(af) end
+            DrawKeyButton(layer2, 320+(linex*35), 250+(liney*35), 25, 25, string.char(af), output)
+            keyinc = keyinc + 1
+        end
+    end
+    
+else
+    addText(layer1, font2, "Remote Networking System", 100,200)
+    addText(layer1, font1, "Activate Programming Board to connect", 100,275)
+end
+
+requestAnimationFrame(1)

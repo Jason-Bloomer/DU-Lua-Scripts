@@ -5,6 +5,7 @@ Nothing super complicated here, but perhaps you find some of these scripts usefu
 ## List of available open-source scripts:
 
 <ul>
+<li><b>Cellular Automata Art</b><ul><li>A modified version of the GOL script that uses multiple conditional color sets. Looks cool, doesn't do anything.</li></ul></li>
 <li><b>Construct ID License Plate</b><ul><li>Uses a construct's ID to generate a unique license plate with configurable display settings.</li></ul></li>
 <li><b>Conway's Game Of Life</b><ul><li>GOL done in lua. Runs on an in-game screen. (currently not working)</li></ul></li>
 <li><b>Custom Font From Image</b><ul><li>Uses sub-regions of an image to render text as if it were using a custom font. Supports custom colors, and per-character coloring.</li></ul></li>
@@ -15,11 +16,16 @@ Nothing super complicated here, but perhaps you find some of these scripts usefu
 <li><b>DU Image To Lua-string Converter</b><ul><li>Convert images to string which can be loaded and displayed by a single Screen element.</li></ul></li>
 <li><b>DU OpenMarket Advertisement</b><ul><li>An advertisement billboard for DU OpenMarket, my Market API for DU. Cycles between 4 states.</li></ul></li>
 <li><b>Infinite Image Slideshow</b><ul><li>Displays a slideshow of images, with support for an infinite number of them. Smooth scrolling transitions and configurable parameters.</li></ul></li>
-<li><b>Image To Movie</b><ul><li>Uses sub-regions of multiple large images to display a quick frame sequence, which looks like an animation or movie clip. Adjustable parameters, supports a theoretically infinite number of images. On-screen pause and seek control using mouse.</li></ul></li>
+<li><b>Image To Movie</b><ul><li>Uses sub-regions of multiple large images to display a quick frame sequence, which looks like an animation or movie clip. Adjustable parameters, supports a theoretically infinite number of images.</li></ul></li>
 <li><b>Item ID Scraper</b><ul><li>Runs a loop which repeatedly checks the game server for a given item ID, and if the item exists, pulls its data and appends it to a screen's renderscript for copying.</li></ul></li>
 <li><b>Lighting RGB Control</b><ul><li>Simple screen UI with 3 sliders which can interact with a PB to change the color of light elements.</li></ul></li>
 <li><b>Matrix Code Rain</b><ul><li>Creates a "Matrix"-like scrolling backdrop, using a non-Cyrillic character set.</li></ul></li>
+<li><b>Nuclear Universe</b><ul><li>Simple script that creates an unavoidable, impassable lag-field which can "permanently" trap players. <b>Using this on other players is against TOS.</b></li></ul></li>
 <li><b>Particle System</b><ul><li>2d Particle simulation with adjustable parameters. Can be used to emulate snow or rain, or as an art-piece.</li></ul></li>
+<li><b>Proximity Detection Logger</b><ul><li>Logs all available data about a player, whenever they cross a detection zone.</li></ul></li>
+<li><b>Remote Networking</b><ul><li>A basic Remote Networking system for use with Emitters and Recievers. Allows you to send/retrieve data, and even run commands from a remote programming board.</li></ul></li>
+<li><b>Simple Game Skeleton</b><ul><li>A barebones game using a remote controller, kind of like asteroids. WASD movement, Click to shoot at the cursor's position. Basic high-score record.</li></ul></li>
+<li><b>Telemeter Landing Visualizer</b><ul><li>Uses telemeters (x36) to map the surface beneath your ship, and renders a wireframe projection of the data to a screen.</li></ul></li>
 <li><b>Terminal Emulator</b><ul><li>Emulates an active terminal, scrolling text with editable technical jargon and color.</li></ul></li>
 <li><b>TYR Mining Unit Control Uplink</b><ul><li>Displays calibrations and stats for up to 7 Mining Units. Updates in real-time.</li></ul></li>
 <li><b>TYR Ship Info Kiosk</b><ul><li>Displays flight-stats and images of constructs, fully configurable. Screen ONLY, no order placement.</li></ul></li>

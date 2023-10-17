@@ -1,0 +1,148 @@
+if not init then
+    mem1 = {}
+    for ix=1,9 do
+        mem1[ix] = 0
+    end
+    datapoint = {}
+    for ix1=1,6 do
+        datapoint[ix1] = {}
+        for iy1=1,6 do
+            datapoint[ix1][iy1] = 0
+        end
+    end
+    tarezero = 1
+    datapoint2 = {}
+    for ix1=1,6 do
+        datapoint2[ix1] = {}
+        for iy1=1,6 do
+            datapoint2[ix1][iy1] = 0
+        end
+    end
+    viewenabled = 1
+    cordx = {}
+    for ix1=1,6 do
+        cordx[ix1] = {}
+        for iy1=1,6 do
+            cordx[ix1][iy1] = 0
+        end
+    end
+    cordy = {}
+    for ix1=1,6 do
+        cordy[ix1] = {}
+        for iy1=1,6 do
+            cordy[ix1][iy1] = 0
+        end
+    end
+    cordz = {}
+    for ix1=1,6 do
+        cordz[ix1] = {}
+        for iy1=1,6 do
+            cordz[ix1][iy1] = 0
+        end
+    end
+    init = true
+end
+font1 = loadFont("Montserrat-Light", 15)
+layer1 = createLayer()
+rx, ry = getResolution()
+cx, cy = getCursor()
+cd = getCursorDown()
+cp = getCursorPressed()
+cr = getCursorReleased()
+
+local inputstr = getInput()
+if inputstr == nil or inputstr == "" then
+    --do nothing
+else
+    --addText(layer1, font1, getInput(), 100,100)
+    local inputstr2 = ""
+    for iy0=1,6 do
+        for iy1=1,6 do
+            inputstr2 = string.sub(inputstr,1,string.find(inputstr,",") - 1)
+            inputstr = string.sub(inputstr,string.find(inputstr,",")+1,string.len(inputstr))
+            datapoint[iy0][iy1] = tonumber(inputstr2)
+        end
+    end
+end
+
+function DrawButton(drawlayer, btnx, btny, btnw, btnh, btntxt, callfunc)
+    setNextFillColor(drawlayer, 0.35, 0.35, 0.35, 1)
+    if cx > btnx and cx < (btnx+btnw) then
+        if cy > btny and cy < (btny+btnh) then
+            if getCursorReleased() == true then
+                --clicked
+                setNextFillColor(drawlayer, 1, 0, 0, 1)
+                callfunc()
+            else
+                --hovered
+                setNextFillColor(drawlayer, 1, 1, 0, 1)
+            end
+        end
+    end
+    setNextStrokeWidth(drawlayer, 0)
+    addBoxRounded(drawlayer, btnx, btny, btnw, btnh, 5)
+    setNextFillColor(drawlayer, 1, 1, 1, 1)
+    local txtw, txty = getTextBounds(font1,btntxt)
+    addText(drawlayer, font1, btntxt, btnx + ((btnw - txtw)/2), btny + (btnh/2)+(txty/2))
+end
+
+if tarezero == 1 then
+    for bx1=1,6 do
+        for by1=1,6 do
+            datapoint2[bx1][by1] = tonumber(datapoint[bx1][by1])
+            tarezero = 0
+        end
+    end
+end
+
+local output = function() if viewenabled == 1 then viewenabled = 0 else viewenabled = 1 end end
+DrawButton(layer1, 20, 20, 100, 35, "SHOW / HIDE", output)
+
+local output = function() tarezero = 1 end
+DrawButton(layer1, 20, 100, 100, 35, "ZERO INPUT", output)
+
+if viewenabled == 1 then
+    --setup draw coordinates
+    local inc = 1
+    for dx1=1,6 do
+        for dy1=1,6 do
+            --cordx[dx1][dy1] = (dx1*150-(dy1*20))-350
+            --cordy[dx1][dy1] = (dy1*60)+150+(tonumber(datapoint[dx1][dy1]) * 20)
+            cordx[dx1][dy1] = (dx1*80-(dy1*20))+300
+            cordy[dx1][dy1] = (dy1*30)+150+((tonumber(datapoint[dx1][dy1]) - datapoint2[dx1][dy1]) * 4)
+            cordz[dx1][dy1] = (tonumber(datapoint[dx1][dy1]) - datapoint2[dx1][dy1])
+            --addText(layer1,font1,cordz[dx1][dy1],(dx1*150-(dy1*20))+100, (dy1*50)+250+(tonumber(datapoint[dx1][dy1]) * 3))
+            setNextFillColor(layer1, 1*((100 - cordz[dx1][dy1])/100), 1*((100 - cordz[dx1][dy1])/100), 1*((100 - cordz[dx1][dy1])/100), 1)
+            addCircle(layer1, cordx[dx1][dy1], cordy[dx1][dy1], 5)
+            inc = inc + 1
+        end
+    end
+    --draw vertical lines
+    for dx2=1,6 do
+        for dl2=1,5 do
+            local brightness = (dx2*0.3)
+            local diff = math.abs(tonumber(cordz[dx2][dl2]) - tonumber(cordz[dx2][dl2+1]))
+            local colorr = (1*brightness)-(0.5/diff)
+            local colorg = (1*brightness)*(0.5/diff)
+            local colorb = (1*brightness)*(0.5/diff)
+            setNextStrokeColor(layer1,colorr,colorg,colorb,(1*brightness))
+            setNextStrokeWidth(layer1,3)
+            addLine(layer1,cordx[dx2][dl2],cordy[dx2][dl2],cordx[dx2][dl2+1],cordy[dx2][dl2+1])
+        end
+    end
+    --draw horizontal lines
+    for dy2=1,6 do
+        for dl2=1,5 do
+            local brightness = (dy2*0.3)
+            local diff = math.abs(tonumber(cordz[dl2][dy2]) - tonumber(cordz[dl2+1][dy2]))
+            local colorr = (1*brightness)-(0.5/diff)
+            local colorg = (1*brightness)*(0.5/diff)
+            local colorb = (1*brightness)*(0.5/diff)
+            setNextStrokeColor(layer1,colorr,colorg,colorb,(1*brightness))
+            setNextStrokeWidth(layer1,3)
+            addLine(layer1,cordx[dl2][dy2],cordy[dl2][dy2],cordx[dl2+1][dy2],cordy[dl2+1][dy2])
+        end
+    end
+end
+
+requestAnimationFrame(1)
